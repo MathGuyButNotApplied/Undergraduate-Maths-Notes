@@ -1,0 +1,2703 @@
+\documentclass[14pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{geometry}
+\usepackage{color}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{titlesec}
+\usepackage{paralist}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{multicol}
+\titleformat{\section}[block]{\color{black}\Large\bfseries\filcenter}{}{1em}{}
+
+\geometry{
+    a4paper,
+    nomarginpar,
+    includeheadfoot,
+    total = {140mm, 257mm},
+    headheight = 1.2cm
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdfpagemode=FullScreen,
+    }
+
+    \theoremstyle{definition}
+    \newtheorem*{remark}{Remarks}
+    \newtheorem*{example}{Example}
+    \newtheorem*{discussion}{Discussion}
+    \newtheorem{definition}{Definition}[subsection]
+    \newtheorem{proposition}[definition]{Proposition}
+    \newtheorem{theorem}[definition]{Theorem}
+    \newtheorem{notation}[definition]{Notation}
+    \newtheorem{coro}[definition]{Corollary}
+    \newtheorem{lemma}[definition]{Lemma}
+    \newtheorem{axiom}[definition]{Axiom}
+    \newtheorem*{exercise}{Exercise}
+
+
+\newcommand{\impl}{\rightarrow}
+\newcommand{\eq}{\thicksim}
+\newcommand{\quotient}{A/\thicksim}
+\newcommand{\fun}[3]{#1\colon #2\rightarrow#3}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\restrict}{\upharpoonright}
+
+\title{MA1100T Basic Discrete Mathematics(T)\\
+    \large (The Torturous Version of MA1100)}
+
+\author{Based on lectures by Prof. Goh Jun Le \\Notes taken by  Zhao Kejun}
+\date{AY23/24 Semester 1}
+\begin{document}
+
+\maketitle
+
+This set of notes is based on the MA1100T lectures delivered by Prof.Goh Jun Le in AY23/24 Semester
+1. The definitions, results and proofs in the notes largely follow those in the lecture slides. However, I
+have modified them slightly and added some extra proofs, explanations and remarks. Therefore, what was written in this notes is by no means an accurate representation of what was actually lectured, and in particular, all errors are almost surely mine.
+
+\section{Chapter 1 Logic}
+
+\section{Chapter 2 Proofs}
+
+\section{Chapter 3 Induction}
+
+(\textit{The first 3 chapters were omitted mainly because I was too lazy to type them out.
+In fact, if you have some experience in SG-Cambridge A level H3 Mathematics or equivalent, 
+there is no barrier for you to read and understand the rest of the notes (chapters
+4-9). That being said,
+chapters 1-3 are still important because they set the foundation for 
+this course and provide useful insights into logic and proofs.})
+
+\section{Chapter 4 Sets}
+\subsection{Naive Set Theory}
+
+\subsection{Axiomatic Set Theory (Zermelo-Fraenkel Axioms)}
+\begin{axiom}
+    (\textit{The Empty Set}) There is an empty set, i.e., $\exists x \forall y(y\notin x)$.
+\end{axiom}
+\begin{remark}
+    The empty set is a subset of every set, but is not an element of every set.
+\end{remark}
+
+\vspace{2mm}
+
+\begin{axiom}
+    (\textit{Extensionality}) Two sets are equal if and only if they have the same elements, i.e., $A=B$ is an abbreviation of $\forall x(x\in A \leftrightarrow x\in B )$.
+\end{axiom}
+\begin{remark}
+    Extensionality dictates that there is a unique empty set.
+\end{remark}
+
+\vspace{2mm}
+
+\begin{axiom}
+    (\textit{Pairing}) For any sets $x$ and $y$, there is a set whose elements are exactly $x$ and $y$, i.e.,  $\forall x\forall y\exists z\forall w(w\in z \leftrightarrow (w=y\lor w=x))$
+\end{axiom}
+\begin{remark}
+    $\lbrace x,y \rbrace =\lbrace x\rbrace$ if $x=y$. This axiom thus allows us to construct sets with a single element or two elements. Now, we are able to construct sets such as $\{\emptyset\}$, $\big\{ \{\emptyset\}\big\}$, $\Big\{\big\{ \{\emptyset\}\big\}, \{\emptyset\}\Big\}$, $\big\{\{\emptyset\}, \emptyset\big\}$ and so on.
+\end{remark}
+
+\vspace{2mm}
+
+\begin{axiom}
+    (\textit{Unary Union}) For each set $A$, there is a set whose elements are exactly the elements of elements of $A$, i.e.  $\forall A\forall a\forall x\exists W(a\in A \land x\in a \rightarrow x\in W)$.
+\end{axiom}
+
+\begin{example}
+    $\bigcup\{A,B\}=\big\{ \text{elements of element of \{A,B\} }\big\}=\big\{ \text{element of A or element of B }\big\}=A\bigcup B$
+\end{example}
+
+\begin{remark}
+    \hfill
+    \begin{enumerate}
+        \item From the above example, we see that if the set A in the axiom is a finite set, taking the unary union of this set A is just applying the binary union finitely many times.
+        \item Certainly not all sets are finite. So imbedded in this axiom is the idea of arbitrary union.
+        \item This axiom, together with 1 and 3, allows us to construct sets with more than 2 elements. For example, one can construct a set with three elements as follows. By axiom 1 and 3, we are able to construct the sets $\emptyset$, $\{\emptyset\}$, $\big\{ \{\emptyset\}\big\}$, $\Big\{\big\{ \{\emptyset\}\big\}\Big\}$and $\big\{\{\emptyset\}, \emptyset\big\}$, as well as $\bigg\{\big\{\{\emptyset\}, \emptyset\big\}, \Big\{\big\{ \{\emptyset\}\big\}\Big\}\bigg\}$ by pairing the last two sets.  Then take the unary union of $\bigg\{\big\{\{\emptyset\}, \emptyset\big\}, \Big\{\big\{ \{\emptyset\}\big\}\Big\}\bigg\}$, we have the set $\Big\{\emptyset, \{\emptyset\},\big\{ \{\emptyset\}\big\}\Big\}$.
+        \item The union of the empty set is the empty set.
+    \end{enumerate}
+\end{remark}
+
+\vspace{3mm}
+
+\begin{axiom}
+    (\textit{Separation}) For each set A and each formula $\phi(x)$, there is a set whose elements are exactly those $x$ in A such that $\phi(x)$ holds. 
+\end{axiom}
+
+\begin{remark}
+\hfill
+\begin{enumerate}
+    \item This axiom is not formally stated as we have not defined what a formula is.
+    \item One cannot allow “arbitrary” formulas or regard a  formula as a“variable”. Therefore, we cannot quantify $\phi$.
+    \item The above axiom is not of the form $\forall A\forall \phi ...$ Rather, for each literal formula $\phi$, there is an axiom $\forall A\exists B \forall x(x\in B \leftrightarrow (x\in A \land \text{a literal }\phi\text{ holds})$. So there are in fact infinitely many axioms, which we call an axiom scheme.
+    \item Now we can show that the (unary) intersection of a **nonempty** set A exists. Proof: Fix $c\in A$. Then we apply the separation axiom to obtain the set $\{x\in c: (\forall a\in A)(x\in a) \}$. This is essentially the set that contains the sets which are common elements of every element of A.
+    \item One cannot take all sets with a property and take the intersection. This could lead to paradoxes. 
+    \item We can define the ordered pair $(x,y)$ to be $\big\{\{x\}, \{x,y\}\big\}$ and prove that $\big\{\{x\}, \{x,y\}\big\}=\big\{\{a\}, \{a,b\}\big\}$ if and only if $a=x$ and $b=y$.\begin{proof}
+         Suppose $A=\big\{\{x\}, \{x,y\}\big\}=\big\{\{a\}, \{a,b\}\big\}=B$. By extensionality, we have $\{x\}\in A \leftrightarrow \{x\}\in B$ and $\{x,y\}\in A \leftrightarrow \{x,y\}\in B$, i.e. $\{x\}, \{x,y\}$ are elements of B. By extensionality, $\{x\}=\{a\}$ and $\{x,y\}=\{a,b\}$. It follows that $a=x$ and $b=y$.  Conversely, if $a=x$ and $b=y$, it is obvious that , $\{x\}=\{a\}$ and $\{x,y\}=\{a,b\}$, and  $\big\{\{x\}, \{x,y\}\big\}=\big\{\{a\}, \{a,b\}\big\}$ by extensionality.
+    \end{proof}
+   
+\end{enumerate}
+\end{remark}
+\vspace{3mm}
+
+\begin{axiom}
+    (\textit{The Power Set}) For each set $A$, there is a set whose elements are exactly the subsets of $A$. $\forall A \exists B \forall a\forall x\big((x\in a\rightarrow x\in A)\leftrightarrow a\in B\big)$.
+\end{axiom}
+\begin{remark}
+\hfill
+\begin{enumerate}
+    \item  For all sets A and B, each ordered pair $(a,b)$ is an element of  ${\cal {P}}({\cal {P}}(A\cup B))$ . 
+    \begin{proof}
+        Since $a,b$ are elements of $A\cup B$,  $\{a\},\{a,b\}$ are elements of  ${\cal P}(A \cup B)$. Hence,  $\{\{a\},\{a,b\}\}\in{\cal {P}}({\cal {P}}(A\cup B))$
+    \end{proof}   
+    \item Therefore, we can define the Cartesian product $A\times B$ to be 
+    \begin{equation*}
+        \{p\in {\cal {P}}({\cal {P}}(A\cup B)) :(\exists a\in A)(\exists b\in B)(p=(a,b))\}
+    \end{equation*}
+\end{enumerate}
+
+
+\end{remark}
+
+\vspace{2mm}
+
+\begin{axiom}
+    (\textit{Infinity}) There is a set $X$ such that $\emptyset \in X$ and for any $x\in X$, we have $x\cup \{x\}\in X$. $\exists X\big(\emptyset \in X \land \forall x(x\in X\rightarrow x\cup \{x\}\in X)\big)$.
+\end{axiom}
+\begin{remark}
+\hfill
+\begin{enumerate}
+    \item The set of natural numbers $\mathbb{N}$  is defined to be the intersection of all sets X as described above.  Formally, we can define $\mathbb{N}$ by applying separation and infinity as follows. Fix $x\in X$. (The set X is guarenteed to be nonempty by infinity.)  Then apply separation to the set $X$ to obtain $\bigg\{ x\in X:\forall Y\Big(\big(\emptyset \in Y\land \forall y\in Y(y\cup\{y\}\in Y)\big)\rightarrow x\in Y\Big)\bigg\}$.
+    \item We can now state the \textbf{principle of induction on $\mathbb{N}$} as follows: \\If $\phi(n)$ is a formula such that  $\phi(\emptyset)$ holds,  and for all  $n\in \mathbb{N}$, $\phi(n)\Rightarrow\phi(n\cup\{n\})$,  then  $\phi(n) $ holds for all $n\in\mathbb{N}$.  
+    \begin{proof}
+        Consider the set $\{n\in \mathbb{N}\colon \phi (n)\}$. By the assumptions of induction, we have $\emptyset\in\{n\in \mathbb{N}\colon \phi (n)\}$ and for all $n\in\mathbb{N}$, $n\cup\{n\}\in \{n\in \mathbb{N}\colon \phi (n)\}$. Therefore, the set $\{n\in \mathbb{N}\colon \phi (n)\}$ satisfies the conditions for $X$ above. Since $\mathbb{N}$ is the intersection of all sets $X$, we have $\mathbb{N}\subseteq \{n\in \mathbb{N}: \phi (n)\}$, i.e. $\phi(n)$ holds for all $n\in \mathbb{N}$.
+    \end{proof}
+    \item  Now we can construct natural numbers: $0=\emptyset$ ; $1=\emptyset\cup\{\emptyset\}=\{\emptyset\}$ ; $2=\{\emptyset\}\cup\{\{\emptyset\}\}=\{\emptyset, \{\emptyset\}\}$ ; $3=\{\emptyset, \{\emptyset\}\}\cup\{\{\emptyset, \{\emptyset\}\}\}=\{\emptyset,\{\emptyset\},\{\emptyset, \{\emptyset\}\}\}$……
+    \item  Laws of arithmetic (addition, multiplication, associativity, distributive law, etc) can be proven using the ZFC axioms.
+\end{enumerate}
+\end{remark}
+
+\vspace{2mm}
+
+\begin{axiom}
+    (\textit{Replacement}) For each formula $\phi(x,y)$ and each set A, if for every $x\in A$, there is a unique $y$ such that $\phi(x,y)$ holds, then there is a set whose elements are exactly those $y$ for which there is some $x\in A$ with $\phi(x,y)$, i.e. $\{y:(\exists x \in  A)\phi(x,y)\}$ exists.
+\end{axiom}
+
+\begin{remark}
+\hfill
+\begin{enumerate}
+    \item Intuitively, one can think of $\phi$ as a function with domain A.
+    \item Replacement justifies the alternate set builder notation: $\{f(x):x\in A\}$.
+    \item In axiomatic set theory, saying $\phi$ is a function presumes that it is a set, which need not to be true. In other words, replacement is much stronger than simply saying that “ every function has a range”
+    \item Replacement does not follow from separation, because in separation,  $y$ needs to be in some set in the first place. However, using replacement one can prove separation.
+\end{enumerate}
+\end{remark}
+
+\vspace{3mm}
+
+\begin{axiom}
+    (\textit{Foundation}) Every nonempty set A has an element $x$ such that for every $a\in A$, we have $a\notin x$.
+\end{axiom}
+\begin{remark}
+    In particular, there is no $x$ such that $x\in x$ (consider $A=\{x\}$). Whenever the set contains the empty set, foundation is trivially true.
+\end{remark}
+
+\vspace{5mm}
+
+\subsection{Relations, Well Orders and Generalised Induction}
+\begin{definition}
+    (\textit{Binary Relation}) A relation on $A$ is a set which contains only ordered pairs with both coordinates from $A$. A binary relation on set $A$ is a subset of $A\times A$.
+\end{definition}
+
+\vspace{2mm}
+
+\begin{definition}
+    (\textit{Well Order}) A binary relation $<$ on A is a well-order if:
+\begin{enumerate}
+    \item it is transitive, i.e., $x<y$ and $y<z$ implies $x<z$.
+    \item it satisfies trichotomy, i.e., for every $x,y\in A$,  exactly one of $x=y$, $x<y$ and $x>y$ holds
+    \item every nonempty subset of A has $<$-least element, i.e. \begin{equation*}
+        (\forall X\subseteq A)(X=\emptyset \vee (\exists x\in X)(\forall y\in X)(y\not<x))
+    \end{equation*}
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+    This relation "$<$" should not be interpreted as the usual $<$. For example, one can prove that a relation $<$ is a well order on the set of negative integers by defining $-1<-2<-3<...$.  Furthermore, one can prove induction on any well-ordered sets. But in fact induction holds for all well-founded sets.
+\end{remark}
+
+\vspace{2mm}
+
+\begin{definition}
+    (\textit{Well-founded Relations}) A relation $R$ on $A$ is well founded if
+    \begin{equation*}
+        (\forall X\subseteq A)(X=\emptyset \vee (\exists x\in X)(\forall y\in X)((y,x)\notin R))
+    \end{equation*}
+\end{definition}
+\vspace{2mm}
+\begin{theorem}
+    (\textit{Generalised Induction}) Suppose a relation $R$ on $A$ is well founded, and $\phi(x)$ is a formula such that for all $y\in A$, if $\phi(x)$ holds for all $x$ such that $(x, y)\in R$, then $\phi(y)$ holds.  Then $\phi(x)$ holds for all $x\in A$.
+\end{theorem}
+\begin{proof}
+    Suppose towards a contradiction that $\neg \phi(x)$ holds for some $x\in A$. Consider the set $X=\{x\in A:\neg\phi(x)\}\subseteq A$. $X$ is non-empty.  By definition of  well -foundedness,  there exists some $x_0\in X$ such that for all $y\in X$, $(y,x_0)\not\in R$. Then,  $\phi(x)$ holds  for all $x$ such that  $(x,x_0)\in R$  and $\phi(x_0)$ fails, contradicting the assumption. 
+\end{proof}
+\newpage
+\section{Chapter 5 Functions}
+\subsection{What is a function?}
+\begin{definition}
+    Let $A$ and $B$ be sets. A function $f\colon A\rightarrow B $ is an assignment of exactly one element of $B$ to each element of $A$. 
+\\ Set theoretically, a function is an ordered triple $(A, B, G)$ such that
+\begin{enumerate}
+    \item $G\subseteq A\times B$
+    \item $(\forall a\in A )(\exists !b\in B)((a,b)\in G)$
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+    If $f$ maps an element of the domain to zero elements or more than one element in the codomain, then $f$ is not a function.
+\end{remark}
+
+\begin{example}\hfill
+    \begin{enumerate}
+    \item For all sets $A$ and $x$, the constant function $c_x$ on $A$ is defined by $c_x\colon A\rightarrow \{x\}, a\mapsto x$
+    \item For every set $A$, the identity function on $A$ is defined by $\mathrm{id}_A\colon A\rightarrow A, x\mapsto x$.
+    \item Given sets $A\subseteq B $, the inclusion function from A to B is defined by $f\colon A\rightarrow B, x\mapsto x$
+\end{enumerate}
+\end{example}
+
+
+\vspace{5mm} %5mm vertical space
+
+\subsection{Range of a Function}
+\begin{definition}
+    The range of a function $f\colon A\rightarrow B $ is the set 
+\begin{equation*}
+    \mathrm{range}(f)=\{ b\in B\colon ( \exists a\in A)(f(a)=b)\}=\{f(a)\colon a\in A\}
+\end{equation*}
+\end{definition}
+
+\begin{remark}
+    Because of separation, $ \mathrm{range}(f)=\{ b\in B\colon ( \exists a\in A)((a,b)\in G_f)\}$.
+\\In fact, by replacement, even if $f$ is not a set but is rather a "rule" defined by some formula $\phi$, the range of $\phi$ on a set is still a set.
+\end{remark}
+
+
+\vspace{5mm} %5mm vertical space
+
+\subsection{Surjection, Injection, Bijection and Inverse}
+
+\begin{definition}
+    A function $f\colon A\rightarrow B $ is surjective if 
+\begin{equation*}
+    (\forall b\in B)(\exists a\in A)(f(a)=b)
+\end{equation*}
+\end{definition}
+
+\begin{definition}
+    A funciton $f\colon A\rightarrow B $ is injective if
+\begin{equation*}
+    (\forall x,y\in A)(f(x)=f(y)\rightarrow x=y)
+\end{equation*}
+\end{definition}
+
+\begin{definition}
+    A function $f\colon A\rightarrow B $ is bijective iff it is both surjective and injective.
+\end{definition}
+
+\begin{remark}
+    \hfill
+    \begin{enumerate}
+    \item If $ f\colon A\rightarrow B $ is bijective, we can define the \textbf{inverse} of $f$, denoted $f^{-1}\colon B \rightarrow A$, by $ f^{-1}(b)=a $ whenever $ f(a)=b $.
+    \item Note that if $f\colon A\rightarrow B $ is only injective, the inverse of $f$ does not exist because not all elements in B is assigned a unique element in $A$.
+\end{enumerate}
+\end{remark}
+
+
+\vspace{5mm} %5mm vertical space
+
+\subsection{Composition of Functions}
+\begin{definition}
+    Let A, B, C be sets such that $B\subseteq C$. Suppose $f\colon A \rightarrow B $ and $g\colon B\rightarrow C$. The composition of g and f is a function $g\circ f\colon A\rightarrow D$ defined by $g\circ f(a)=g(f(a))$
+\end{definition}
+
+\begin{remark}  Set theoretically:
+\begin{equation*}
+    G_{g\circ f}=\{(a,d)\in A \times D \colon (\exists b\in B )(f(a))=b\wedge g(b)=d)\}
+\end{equation*}
+Saying that the composition of some functions equals some value can be thought of as an existential statement. 
+\end{remark}
+
+ 
+
+\begin{example}
+  Let $X $ be a nonempty set. Fix an element $x_0\in X$. Define
+  \begin{equation*}
+      f\colon \mathcal{P} (X)\rightarrow \mathcal{P} (X)  \hspace{0.5cm} \mathrm{ by } \hspace{0.5cm} f(A)=A-\{x_0\}
+  \end{equation*}
+  and
+  \begin{equation*}
+      g\colon \mathcal{P}(X)\rightarrow \mathcal{P} (X) \hspace{0.5cm} \mathrm{ by } \hspace{0.5cm} g(A)=A\cup\{x_0\}
+  \end{equation*}
+  Then $g\circ f=f$ and $f\circ g=f $. This example shows that the composition operation does not allow us to "cancel" a function on both sides and conclude that the remaining one is the identity. 
+\end{example}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{proposition}
+     For every function $f\colon X\rightarrow Y$, $f\circ \mathrm{id}_X $ and $\mathrm{id}_Y \circ f$ are both equal to $f$.
+\end{proposition}
+
+\begin{proof}
+    By definition, $f\circ \mathrm{id}_X$ is a function from X to Y.So is $f$. Furthermore, for each $x\in X$, $f(\mathrm{id}_X)=f(x)$.
+    By definition, $\mathrm{id}_Y \circ f$ is a function from X to Y. So  is $f$. Furthermore, for each $x\in X$, $\mathrm{id}_X(f(x))=f(x)$.
+\end{proof}
+
+\vspace{2mm} %5mm vertical space
+
+
+\begin{proposition}
+   For every bijection $f\colon X\rightarrow Y$, $f\circ f^{-1}=\mathrm{id}_Y$ and $f^{-1}\circ f=\mathrm{id}_X$. 
+\end{proposition}
+
+\begin{proof}
+    By definition,  $f\circ f^{-1}$ is a function from Y to Y, and so is $\mathrm{id}_Y$. Furthermore, for each $y\in Y$, there is a unique $x\in X$ such that $y=f(x)$. By definition, $x=f^{-1}(y)$. So $f(f^{-1}) (y)=f(x)=y$. (Note that we can apply the function f on both sides of the because $f^{-1}(y)\in X $ is in the domain of $f$).  The second part of the proof is completely  analogous.
+\end{proof}
+
+\vspace{2mm} %5mm vertical space
+
+
+\begin{proposition}
+Suppose $X$ is a nonempty set and  $f\colon X\rightarrow Y$ is a function. Then $f$ is injective if and only if there is a function $g\colon Y\rightarrow X$ such that $g\circ f=\mathrm{id}_X$
+\end{proposition}
+
+\begin{proof}
+    ($\Rightarrow$) Suppose $f$ is injective. Pick $x_0\in X$ Define $g\colon Y\rightarrow X$ as follows. 
+    \begin{itemize}
+        \item For every $y\in Y$ such that $f(x)=y$ for some $x\in X$, define $g(y)=x$. This is well-defined because $f$ being an injection guarantees that $x$ is unique.
+        \item For all other $y\in Y$, define $g(y)=x_0$. 
+    \end{itemize}
+    \textcolor{red}{One cannot simply writing " define $gf(x)=x$" because}
+\begin{itemize}
+\color{red}
+    \item for every $y\in Y$ such that $y=f(x)$, there may be multiple $x$ such that $f(x)=y$. This could result in $y$ being mapped back to multiple $x$, i.e. g(f(x)) have multiple values
+    \item there may be $y\in Y$ which are not mapped to be any $x\in X$. We need to define $g$ for such $y$ as well.
+\end{itemize}
+    ($\Leftarrow$) Suppose there is a function $g\colon Y\rightarrow X$ such that $g\circ f=\mathrm{id}_X$. Pick $x_1, x_2\in X$. Suppose $f(x_1)=f(x_2)$. Apply the function $g$ on both sides to obtain $g\circ f(x_1)=g\circ f(x_2)$. Thus, $\mathrm{id}_X(x_1)=\mathrm{id}_X(x_2)$, i.e., $x_1=x_2$
+\end{proof}
+
+\begin{remark}
+    Being one-to-one is equivalent to having a left inverse.
+\end{remark}
+
+\vspace{3mm} %5mm vertical space
+
+\begin{proposition}
+Suppose $X$ is a nonempty set and  $f\colon X\rightarrow Y$ is a function. Then $f$ is surjective if there is a function $g\colon Y\rightarrow X$ such that $f\circ g=\mathrm{id}_Y$
+\end{proposition}
+
+\begin{proof}
+    Given $y\in Y$. By assumption, there is $g(y)\in X$ such that $f(g(y))=y$. So $f$ is onto.
+\end{proof}
+
+\begin{remark}
+    One may attempt to prove the forward direction as follows: 
+    \begin{itemize}
+        \item Given $y\in Y$, we want to define $g(y)$ such that $f(g(y))=y$. Since $f$ is onto, there is some $x\in X$ such that $y=f(x)$. So we only need to let $x=g(y)$.
+    \end{itemize}
+      The issue here is that there may be multiple such $x$ such that $y=f(x)$, and we need to choose exactly one such $x$ and define it to be $g(y)$. Also, we need to do this for every $y\in Y$. \\ It turns out that in Zermelo Fraenkel set theory, ($\Rightarrow$) is not provable. ($\Rightarrow$) is equivalent to the axiom of choice.
+\end{remark}
+
+\vspace{3mm} %5mm vertical space
+
+\begin{proposition}
+    Suppose $X$ is a nonempty set and  $f\colon X\rightarrow Y$ is a function. The following statements are equivalent:
+    \begin{enumerate}
+        \item f is a bijection
+        \item there is a function $g\colon Y\rightarrow X$ such that  $g\circ f=\mathrm{id}_X$ and $f\circ g=\mathrm{id}_Y$.
+        \item there are functions $g, h\colon Y\rightarrow X$ such that $g\circ f=\mathrm{id}_X$ and $f\circ h=\mathrm{id}_Y$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(1)$\Rightarrow$(2): This follows from \textbf{Proposition 4.3}\\
+(2)$\Rightarrow$(3): (3) is a weaker version of (2)\\
+(3)$\Rightarrow$(1): This follows from  \textbf{Proposition 4.4} and  \textbf{Proposition 4.5}
+\end{proof}
+\begin{remark}
+    To prove a function is a bijection, one can attempt to produce its left inverse $g$ and right inverse $h$. 
+\end{remark}
+
+\vspace{3mm} %5mm vertical space
+\begin{proposition}
+    \textit{(Associativity of function composition)} Let  $f\colon X\rightarrow Y$,  $g\colon Y'\rightarrow Z$,   $h\colon Z'\rightarrow W$ be functions, where $Y\subseteq Y'$ and $Z\subseteq Z'$. Then $h\circ (g\circ f)=(h\circ g)\circ f$.
+\end{proposition}
+\begin{proof}
+    First verify that the two functions are well defined and the domains and codomains are equal.
+    Then check the graphs are the same.
+\end{proof}
+
+\vspace{5mm} %5mm vertical space
+
+\subsection{Restriction of Functions}
+
+\begin{definition}
+   A function $f\colon A\rightarrow Y$ is a restriction of a function $g\colon X\rightarrow Y$ if $A\subseteq X$ and for each $a\in A$, we have $f(a)=g(a)$.
+\end{definition}
+
+\vspace{1mm} %5mm vertical space
+
+\begin{proposition}
+    $f$ is a restriction of $g\colon X\rightarrow Y$ if $f=g\circ\mathrm{id}_A$ for some $A\subseteq X$.(We denote $g\circ\mathrm{id}_A$ by $g\upharpoonright A$)
+\end{proposition}
+\begin{proof}
+ By definition, $f$ is a function from $A$ to $Y$. Furthermore, for each $a\in A$,  $f(a)=g\circ(\mathrm{id}_A)(a)=g(a)$
+\end{proof}
+
+\vspace{1mm} %5mm vertical space
+
+\begin{proposition}
+    If $g\colon X\rightarrow Y$ is a function, then there is some $A\subseteq X$ such that $g\upharpoonright A$ is one-to-one
+\end{proposition}
+\begin{proof}
+    Let $A=\emptyset$ and we are done.
+\end{proof}
+
+\vspace{1mm} %5mm vertical space
+
+\begin{proposition}
+    If $g\colon X\rightarrow Y$ is onto, then there is some $A\subseteq X $ such that $g\upharpoonright A$ is a bijection.  (Assume that there exists a function $f\colon Y\rightarrow X$ such that $g\circ f=\mathrm{id}_Y$, i.e. $g$ has a left inverse.) 
+\end{proposition}
+\begin{remark}
+    To prove the above, for each $y\in Y$, we want to choose exactly one $x\in X$ such that $g(x)=y$. Again, the issue with choices arises. For now, we assume the existence of right inverse.
+\end{remark}
+
+\begin{proof}
+    Define $A=\mathrm{range}(f)$. Then $A \subseteq X$.\\
+    To prove $g\upharpoonright A$ is injective: Pick $a_1, a_2\in A$. Suppose $g(a_1)=g(a_2)$. By definition, there are $y_1,y_2\in Y$ such that $a_1=f(y_1)$ and $a_2=f(y_2)$. Then, $g(a_1)=g(f(y_1))=g(a_2)=g(f(y_2))$. Since $g\circ f=\mathrm{id}_Y$, we have $y_1=y_2$. So $a_1=f(y_1)=f(y_2)=a_2$ as desired.\\
+    To prove $g\upharpoonright A$ is surective: Given $y\in Y$. We have $f(y)\in A$ and $g(f(y))=y$ as desired.
+\end{proof}
+
+\vspace{5mm} %5mm vertical space
+
+\subsection{Image of a function on a subset of the domain}
+
+\begin{definition}
+   Suppose $g\colon X\rightarrow Y$ is a function and $A\subseteq X$. \textcolor{red}{The image of $A$ under $g$}, denoted by $g[A]$, is defined to be $\mathrm{range}(g\upharpoonright A)$, or equivalently, $\{g(a)\in Y\colon a\in A\}$.\\
+   If $B\subseteq Y$, \textcolor{red}{the preimage of $B$ under $g$}, denoted by $g^{-1}[B]$, is defined to be $\{x\in X\colon g(x)\in B\}$
+\end{definition}
+
+\begin{remark}
+One should take note that
+    \begin{itemize}
+        \item  $g^{-1}[B] $ is defined even if $g^{-1}$ does not exist.
+        \item  if $g^{-1}$ exists, the preimage of $B$ under $g$ agrees with the image of $B$ under $g^{-1}$.
+        \item  if $B$ is a singleton $\{y\}$, one can write $g^{-1}(y)$. The set $g^{-1}(y)$ is called the fiber of $y$.
+    \end{itemize}
+\end{remark}
+
+\vspace{3mm} %5mm vertical space
+
+\begin{proposition}
+    Suppose $g\colon X\rightarrow Y$ is a function and $A,B\subseteq X$, then $g[A\cup B]=g[A]\cup g[B]$
+\end{proposition}
+\begin{proof}
+    $y\in g[A\cup B]$ iff there is some $x\in A\cup B$ such  that $g(x)=y$. This holds iff there is some $x\in A$ or $x\in B$ such that $g(x)=y$, i.e.,  $y\in g[A] $ or $y\in g[B]$. This holds iff $y\in A\cup B$.
+\end{proof}
+\begin{remark}
+    This result can be easily generalised for arbitrary unions over arbitrary index sets.
+\end{remark}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{proposition}
+    Suppose $g\colon X\rightarrow Y$ is a function and $A,B\subseteq X$, then $g[A\cap B]\subseteq g[A]\cap g[B]$
+\end{proposition}
+\begin{proof}
+    Suppose $y\in g[A\cap B] $, i.e., there is some $x\in A\cap B$ such that $g(x)=y$. Since $x\in A$ and $x\in B$, we have $y\in g[A] $ and $y\in g[[B]$. So $y\in g[A]\cap g[B]$
+\end{proof}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{proposition}
+    Suppose $g\colon X\rightarrow Y$ is a function and $A\subseteq X$, then $A\subseteq g^{-1}[g[A]]$
+\end{proposition}
+\begin{proof}
+    Fix $x\in A$. Then $g(x)\in g[A]$. So $x\in\{x\in X\colon g(x)\in g[A]\}$. So $x\in g^{-1}[g[A]]$.
+\end{proof}
+\newpage
+
+\section{Chapter 6 Number Theory}
+\subsection{Infinitude of primes}
+\begin{proposition}
+    For every $b\in \mathbb{N}^+$, there is a prime number greater than $b$.
+\end{proposition}
+\begin{proof}
+    Consider the number $b!+1$. If $b!+1>b$ is a prime number, then we are done. Otherwise, there is some prime number $p<b!+1$ such that $p\mid b!+1$. If $p\leq b$, then $p\mid b!$, so $p\nmid b!+1 $. So, we must have $p>b$
+\end{proof}
+
+\vspace{5mm} %5mm vertical space
+
+\subsection{Bounded Sets}
+\begin{definition}
+    A set $X\subseteq\mathbb{N}$ is bounded if there is some $b\in\mathbb{N}$ such that for all $x\in X$, we have $x\leq b$
+\end{definition}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{proposition}
+    Every nonempty bounded set has a unique maximum element. (We denote the maximum element of $X$ by $\mathrm{max}(X)$)
+\end{proposition}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{proposition}
+    The union of two bounded sets is bounded.
+\end{proposition}
+\begin{proof}
+    Consider sets $A$ and $B$ which are bounded by $a$ and $b$ respectively. Let $c=\max(a,b)$, then for each $x\in A$ or $X\in B$, we have $x\leq c$. 
+\end{proof}
+
+\vspace{5mm} %5mm vertical space
+
+\subsection{Greatest Common Divisor}
+
+\begin{definition}
+    Let $a,b\in \mathbb{Z}$ be nonzero. A positive integer $k$ is a gcd of $a$ and $b$ if $k|a$ and $k|b$, and if $d|a$ and $d|b$, then $|d|\leq k$.
+\end{definition}
+
+\vspace{2mm} %5mm vertical space
+
+ \begin{proposition}
+     Given any nonzero integers $a,b$, their gcd exists. Furthermore, the gcd is unique.
+ \end{proposition}
+
+\begin{proof}
+    Consider the set $S=\{|d|\in \mathbb{N}^+\colon d|a \text{ and } d|b\}$. Then,
+    \begin{itemize}
+        \item S is nonempty because $1\in S$
+        \item S is bounded by $\min(a,b)$ because $d$ divides both $a$ and $b$
+    \end{itemize}
+    By Proposition 2.2, S has a unique maximum element.\\
+\end{proof}
+
+\vspace{5mm} %5mm vertical space
+
+\subsection{The Division Theorem}
+\begin{proposition}
+For every $a\in \mathbb{Z}$ and $b\in \mathbb{N}^+$, there are unique $q,r\in \mathbb{Z} $ such that $a=bq+r$ and $0\leq r <b$.
+\end{proposition}
+
+\begin{proof}
+    We prove existence and uniqueness separately.\\
+    (\textit{Existence}) Consider the set $S=\{r\in \mathbb{N}\colon (\exists q\in\mathbb{Z})(a=bq+r)\}$.(\textcolor{red}{$q$ cannot be chosen arbitrarily. $a-bq$ must be non-negative}).To show that S is nonempty, consider $q=-|a|$. 
+    \begin{equation*}
+        a-bq=a+b|a|\geq -|a|+b|a|=(b-1)|a|\geq 0
+    \end{equation*}
+    since $b$ is positive. Note that if $b=0$, S could be empty (when $a$ is negative). \\
+    By well-ordering, let $r$ be the least element of $S$. It remains to prove that $r<b$. Suppose $r\geq b$, then $r-b\in S$. This is because if $r=a-bq$, then $r-b=a-b(q+1)$. But $r-b<r$, contradicting the minimality of $r$\\
+    (\textit{Uniqueness}) Suppose $bq_1+r_1=bq_2+r_2$, where $q_1, q_2, r_1, r_2 \in \mathbb{Z}$ and $0\leq r_1, r_2\leq b$. Rearranging we obtain
+    \begin{equation*}
+        b(q_1-q_2)=r_2-r_1
+    \end{equation*}
+    So $b|(r_2-r_1)$. If $r_2-r_1$ is nonzero, then $b\leq |r_2-r_1|$. But $0\leq r_1, r_2 < b$ implies $|r_2-r_1|<b$. So $r_2=r_1$. Finally, $b(q_1-q_2)=0$, so $q_1=q_2$ since $b>0$.
+\end{proof}
+\begin{remark}
+    In the proof above, by the definition of $S$, $q$ is up to us to choose. By concluding $S$ has a least  element $r$, we already have a corresponding $q$.
+\end{remark}
+\begin{remark}
+     The existence part of the division theorem allows us to prove statements of the form $(\forall a\in \mathbb{Z}P(a))$ by cases.
+\end{remark}
+
+\vspace{5mm} %5mm vertical space
+
+\subsection{Bezout's Identity}
+\begin{definition}
+    (\textit{Ideals})
+    A nonempty subset $I$ of $\mathbb{Z}$ is an ideal if:
+    \begin{enumerate}
+        \item for all $a,b\in I $, $a-b\in I$, and
+        \item for all $n\in\mathbb{Z}$ and $a\in I$, $na\in I$
+    \end{enumerate}
+    It follows that 0 is an element of every ideal.
+\end{definition}
+
+\begin{remark}
+    The second property can be proved from the first one.
+\end{remark}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{proposition}
+    (\textit{Every ideal in $\mathbb{Z}$ is principal, i.e. generated by a single integer.})\\
+    For every ideal $I\subseteq\mathbb{Z} $, there is some $k\in I\cap \mathbb{N}$ such that $I=\{nk:n\in \mathbb{Z}\}$
+    
+\end{proposition}
+
+\begin{proof}
+    If $I=\{0\}$, then we can take $k=0$. Otherwise, consider $S=I\cap \mathbb{N}^+$.
+    If $S$ is nonempty, we are done. If $S$ is empty, then $I$ must contain some negative integer $s$. By definition $(-1)s\in I$ and $-s\in \mathbb{N}^+$, so $-s\in S$.\\
+    By well ordering, let $k $ be the least element of $S$. We claim that $I=\{nk\colon n\in \mathbb{Z}\}$\\
+    ($\supseteq$) Since $ k\in I$, $nk\in I$ for all $n\in\mathbb{Z} $ by the second condition in Definition 5.1.  So $\{nk\colon n\in \mathbb{Z}\}\subseteq I$. \\
+    ($\subseteq$) Fix $a\in I$. Given $k\in\mathbb{N}^+ $ By the division theorem, there are integers $n$ and $r$ such that $a=nk+r$ and $0\leq r< k $. It remains to show that $r=0$. Since $n\in\mathbb{Z} $ and $k\in I$, we have $nk\in I$. Furthermore, since $a\in I$, we have $r=a-nk \in I$. If $r $ were to be nonzero, then $r\in S$. By the minimality of $k$, $k\leq r$, contradicting to $r<k$. Hence, $r=0$.
+\end{proof}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{proposition}
+    (\textit{Bezout's Identity}) For every nonzero $a,b\in \mathbb{Z}$, there is some $ k\in\mathbb{N}^+ $ such that:
+    \begin{itemize}
+        \item $k|a$ and $k|b$, and 
+        \item there are $n,m \in\mathbb{Z}$ such that $k=na+mb$.
+    \end{itemize}
+\end{proposition}
+
+\begin{proof}
+    Consider $I=\{na+mb\colon n,m \in \mathbb{Z}\}$. One can easily check that $I$ is an ideal. 
+    Since ideals in $Z$ are principal, fix $k\in I\cap \mathbb{N}$ such that $I=\{nk:n\in \mathbb{Z}\}$. Note that $k\not= 0 $ because $I$ contains a nonzero  number (such as $a$). So $k\in \mathbb{N}^+$. Since $a,b\in I$, we have $k|a$ and $k|b$. Since $k\in I$, there are $n,m \in\mathbb{Z}$ such that $k=na+mb$.
+\end{proof}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{proposition}
+    For every nonzero $a,b\in \mathbb{Z}$, there are $n,m \in\mathbb{Z}$ such that  $na+mb=\gcd(a,b)$. Furthermore, if $d|a$ and $d|b$, then $d|gcd(a,b)$
+\end{proposition}
+\begin{proof}
+    By proposition 6.5.3,  there is some $ k\in\mathbb{N}^+ $ and $n,m \in\mathbb{Z}$ such that $k=na+mb$ and $k|a$ and $k|b$. It follows that $k\leq \gcd(a,b)$. Since $\gcd(a,b)|a$ and $\gcd(a,b)|b$, we have $\gcd(a,b)| k=na+mb$. So $\gcd(a,b)\leq k$. Thus, $\gcd(a,b)=k=na+mb $.
+\end{proof}
+
+
+\begin{remark}
+   It follows from the proofs of Propositions 6.5.2 and 6.5.3 that $\gcd(a,b)$ is the smallest positive linear combination of $a$ and $b$. 
+\end{remark}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{proposition}
+    (\textit{Euclid's Lemma}) If $a,b\in\mathbb{N}^+$ and $p$ is a prime number with $p|ab$, then $p|a$ or $p|b$.
+\end{proposition}
+\begin{proof}
+    Consider $I=\{n\in\mathbb{Z}\colon p\mid na\}$.
+    We claim that $I$ is an ideal. (clearly, $I$ is nonempty since $0\in I$)
+    \begin{itemize}
+        \item Fix $n_1, n_2\in I$. If $ p\mid n_1a$ and $ p\mid n_2a$, then $ p\mid n_1a-n_2a$.
+        \item If $ p\mid n_1a$, then for all $n\in \mathbb{Z}$, we have $p\mid n(n_1a)$
+    \end{itemize}
+    Since every ideal in $\mathbb{Z}$ is principal, fix $k\in I \cap \mathbb{N}$ such that $I=\{nk\colon n\in \mathbb{Z}\}$. Since $p\mid pa$, We now have $p,k\in\{n\in\mathbb{Z}\colon p\mid na\}= \{mk\colon m\in \mathbb{Z}\}$. So $p=mk$ for some $m\in \mathbb{Z}$. So $k|p$. Since $p$ is a prime number, either $k=1$ or $k=p$.
+    \begin{itemize}
+        \item \underline{Case 1}: If $k=1$, then $p\mid a$ because $p\mid ka$
+        \item \underline{Case 2}: If $k=p$, since $p\mid ab$(by assumption), $b\in I$, so $b=km$ for some $m\in \mathbb{Z}$, i.e., $p\mid b$
+    \end{itemize}
+\end{proof}
+
+\vspace{5mm} %5mm vertical space
+
+\subsection{Fundamental Theorem of Arithmetic}
+\begin{definition}
+  (\textit{Finite support})  Let $P\subseteq \mathbb{N}^+$. A function $e\colon P\rightarrow \mathbb{N}^+$ has \textbf{finite support} if the set $\{p\in P\colon e(p)\not=0\}$ is bounded. Let $\mathcal{F} $ denote the set of all functions  $e\colon P\rightarrow \mathbb{N}^+$ with finite support.
+\end{definition}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{theorem}
+(\textit{Fundamental Theorem of Arithmetic}) For each $a\in \mathbb{N}^+$, there is a unique $e_a\in \mathcal{F}$ such that $a=\prod \{p^{e_a(p)}\colon e_a(p)\not=0\}$
+\end{theorem}
+
+\begin{proof}
+We shall prove the existence and uniqueness separately.\\
+(\textit{Existence}) \underline{Base case}: When $a=1$, define $e_1(p)=0$ for all $p\in P$. Thus, $\{p\in P\colon e_1(p)\not=0\}=\varnothing$, which is bounded. So, $e_1\in \mathcal{F}$ and we have $\prod \{p^{e_a(p)}\colon e_a(p)\not=0\}=\prod \varnothing=1 $.\\
+\underline{Inductive step}: Suppose for all $a'<a$,  there is some  $e_{a'}\in \mathcal{F}$ such that $a'=\prod \{p^{e_{a'}(p)}\colon e_{a'}(p)\not=0\}$. If $a\in P$, define 
+\begin{equation*}
+    e_a(p)=
+    \begin{cases}
+        1 & \text{if } p=a \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{equation*}
+One can easily check $e_a$ is in $\mathcal{F}$, and $a=a^{e_a(a)}$.\\
+If $a\notin P$, there is some $q\in P$ such that $a=kq$ for some $k\in \mathbb{N}^+/\{1\}$. Notice that $k<a$, By the induction hypothesis, there is some $e_k\in \mathcal{F}$ such that $k=\prod \{p^{e_k(p)}\colon e_k(p)\not=0\}$. We define \begin{equation*}
+    e_a (p)=
+     \begin{cases}
+        e_k(p)+1 & \text{if } p=q \\
+        e_k(p) & \text{otherwise}
+    \end{cases}
+\end{equation*}  
+We claim that $e_a\colon P\rightarrow \mathbb{N}^+$ has finite support(i.e.,$\{p\in P\colon e_a(p)\not=0\}$ is bounded ). We know $\{p\in P\colon e_k(p)\not=0\}$ is bounded, and suppose it has a bound $b$. Clearly, $q\in\{p\in P\colon e_a(p)\not=0\}$. If $q\leq b$, then  $\{p\in P\colon e_a(p)\not=0\}$ is bounded by $b$. Otherwise it is bounded by $q$. 
+Therefore, $e_a\in \mathcal{F}$.  Notice that $e_a(p)\not=0 $ whenever $e_k(p)\not=0$, so one can easily verify that
+\begin{equation*}
+    a=qk=\prod \{p^{e_{a}(p)-e_k(p)}\colon e_{a}(p)\not=0\}\prod \{p^{e_{k}(p)}\colon e_{a}(p)\not=0\}=\prod \{p^{e_{a}(p)}\colon e_{a}(p)\not=0\}
+\end{equation*}
+(\textit{Uniqueness}) Suppose towards a contradiction that for some $a\in \mathbb{N}^+$, there are distinct functions $e_a, e_a' \in \mathcal{F}$ such that $a=\prod \{p^{e_a(p)}\colon e_a(p)\not=0\}=\prod \{p^{e_a'(p)}\colon e_a'(p)\not=0\}$. Fix $e_a\not=e_a'$, fix some $q\in P$ such that $e_a(q)\not= e_a'(a)$. WLOG, suppose $e_a(q)<e_a'(q)$. Now we can divide both products by $q^{e_a(q)}$ to obtain
+\begin{equation*}
+    \prod \{p^{e_a(p)}\colon e_a(p)\not=0 \wedge p\not= q\}=q^{e_a'(p)-e_a(p)}\prod \{p^{e_a'(p)}\colon e_a'(p)\not=0\wedge p\not= q\}
+\end{equation*}
+So $q$ must divide the LHS. By Euclid's Lemma, $q$ must divide some prime number not equal to $q$, which yields the desired contradiction.
+
+\end{proof}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{proposition}
+    The function $a\mapsto e_a$ is a bijection from $\mathbb{N}^+$ to $\mathcal{F}$.
+\end{proposition}
+
+\begin{proof}
+    First, by FTA, the function $a\mapsto e_a$ from $\mathbb{N}^+$ to $\mathcal{F}$ is well defined.\\
+    To prove $a\mapsto e_a$ is onto, consider $e\in \mathcal{F}$. Define $a=\prod \{p^{e(p)}\colon e(p)\not=0\}$. \textcolor{red}{This product is well defined because $e\in \mathcal{F}$}. Also, by FTA, since $a\in \mathbb{N}^+$, $a=\prod \{p^{e_a(p)}\colon e_a(p)\not=0\}$ and $e_a$ is unique. Hence, we have $e=e_a$.\\
+    To prove $a\mapsto e_a$ is one-to-one, consider $a, a' \in \mathbb{N}^+$. Suppose $e_a=e_{a'}$, we have
+    \begin{equation*}
+       a=\prod \{p^{e_a(p)}\colon e_a(p)\not=0\}=\prod \{p^{e_{a'}(p)}\colon e_{a'}(p)\not=0\}=a' 
+    \end{equation*}
+\end{proof}
+
+\begin{remark}\hfill
+    \begin{itemize}
+        \item The proof for surjectivity uses the uniqueness of $e_a$. If $e_a$ is characterised by a certain property and we want to show $e$ equals to $e_a$, it suffices to prove that $e$ has the same property as $e_a$.
+        \item The FTA does not give us constructive definition of $e_a$. It only asserts that there is unique $e_a$ with certain properties. So in this proof what matters is the property of $e$ in the set $\mathcal{F}$.
+    \end{itemize}
+\end{remark}
+
+\vspace{3mm} %5mm vertical space
+
+\begin{proposition}
+    For every $a,b \in \mathbb{N}^+$, we have $e_{ab}(p)=e_a(p)+e_b(p)$ for all $p\in P$
+\end{proposition}
+\begin{proof}
+    By the definition of $e_a$ and $e_b$, we have 
+    \begin{equation*}
+        a=\prod \{p^{e_a(p)}\colon e_a(p)\not=0\} \hspace{3mm}\text{ and } \hspace{3mm} b=\prod \{p^{e_b(p)}\colon e_b(p)\not=0\}
+    \end{equation*}
+    Multiplying them together, we have
+    \begin{equation*}
+        ab=\prod \{p^{e_a(p)+e_b(p)}\colon e_a(p)\not=0\vee e_b(p)\not=0\}=\prod \{p^{e_a(p)+e_b(p)}\colon e_a(p)+ e_b(p)\not=0\}
+    \end{equation*}
+    Let $e$ denote the function $e_a+e_b$, i.e., for each $p\in P$, $e_a(p)+e_b(p)=e(p)$. We claim that $e(p)$ has finite support, i.e.,  the set $\{p\in P\colon e_a(p)+e_b(p)\not=0 \}$ is bounded. Notice that
+  \begin{equation*}
+     \begin{split}
+         \{p\in P\colon e_a(p)+e_b(p)\not=0 \}&=\{p\in P\colon e_a(p)\not=0\vee e_b(p)\not=0 \}\\&=\{p\in P\colon e_a(p)\not=0\}\cup \{p\in P\colon e_b(p)\not=0\}
+     \end{split}
+  \end{equation*}
+  We conclude that $\{p\in P\colon e_a(p)+e_b(p)\not=0 \}$ is bounded because the union of two bounded sets is bounded(\textbf{Proposition 6.2.3}). Therefore, we have $e\in \mathcal{F}$. By the uniqueness of $e_{ab}$, we have $e_a+e_b=e=e_{ab}$
+\end{proof}
+
+\begin{remark}
+    The subtlety in this proof is that in order to apply the unique property of $e_{ab}$, one must prove that $e=e_a+e_b$ is actually in $\mathcal{F}$ because the uniqueness property only applies to elements in $\mathcal{F}$.
+\end{remark}
+
+\vspace{3mm} %5mm vertical space
+
+\begin{proposition}
+    For every $a,b\in \mathbb{N}^+$, we have $a\mid b$ if and only if $e_a(p)\leq e_b(p)$ for  all $p\in P$
+\end{proposition}
+
+\begin{proof}
+    ($\Rightarrow$) Suppose $b=ka$. By \textbf{Proposition 6.6.4}, we have $e_b(p)=e_{ak}(p)=e_a(p)+e_k(p)$ for all $p\in P$. Since $e_k(p)\geq 0 $ for all $p\in P$, we have $e_a(p)\leq e_b(p)$ for all $p\in P$.\\
+    ($\Leftarrow$) Suppose $e_a(p)\leq e_b(p)$  for all $p\in P$. Define
+    \begin{equation*}
+            k=\prod\{p^{e_b(p)-e_a(p)}\colon e_b(p)\not=0\}
+    \end{equation*}
+    Notice that,  since $0\leq e_a(p)\leq e_b(p)$, whenever $e_a(p)\not=0$, we have $e_b(p)\not=0$ and whenever $e_a(p)=0$, we have $p^{e_a(p)}=1$. Thus,
+    \begin{equation*}
+        a=\prod\{p^{e_a(p)}\colon e_a(p)\not=0\}=\prod\{p^{e_a(p)}\colon e_b(p)\not=0\}
+    \end{equation*}
+    It follows that 
+    \begin{equation*}
+       \begin{split}
+           ka=& \prod\{p^{e_b(p)-e_a(p)}\colon e_b(p)\not=0\}\prod\{p^{e_a(p)}\colon e_b(p)\not=0\}\\
+           =&\prod\{p^{e_b(p)}\colon e_b(p)\not=0\}\\
+           =&b
+       \end{split}
+    \end{equation*}
+\end{proof}
+
+\begin{remark}
+    Two subtleties in this proof
+    \begin{itemize}
+        \item When defining $k$, we only restrict $e_b(p)$ to be non-zero. Noting that $e_a(p)\not=0$ is stronger than $e_b(p)\not=0$, we must allow $e_a(p)=0$. Otherwise, we may completely neglect those prime factors which divide $b$ but do not divide $a$. We also do not restrict $e_b(p)-e_a(p)\not=0$ because we need the all terms with $e_b(p)\not=0$ for later use.
+        \item We changed $a=\prod\{p^{e_a(p)}\colon e_a(p)\not=0\}$ to $a=\prod\{p^{e_a(p)}\colon e_b(p)\not=0\}$ to make the condition in the set builder notation match with that of $b$. We can do this precisely because $e_a(p)\not=0$ is stronger than $e_b(p)\not=0$ and, in cases where $e_a(p)=0$ and $e_b(p)\not=0$, changing the condition has no effect on the product as $p^{e_a(p)}=1$.
+    \end{itemize}
+\end{remark}
+
+\vspace{2mm} 
+
+
+\begin{proposition}
+    (\textit{gcd revisited}) For every $a,b \in \mathbb{N}^+$, there is some $k\in \mathbb{N}^+$ such that 
+    \begin{itemize}
+        \item $k\mid a$ and $k\mid b$ and
+        \item if $d\mid a$ and $d\mid b$, then $d\mid k$. 
+    \end{itemize}
+\end{proposition}
+\begin{proof}
+    Define $f\colon P\rightarrow \mathbb{N}^+$ by $f(p)=\min\{e_a(p), e_b(p)\}$. We claim that $f$ has finite support, i.e., the set $\{p\in P\colon f(p)\not=0\}$ is bounded.\\
+    By definition, $f(p)\leq e_a(p)$ and  $f(p)\leq e_b(p)$ for all $p\in P$. Therefore, $f(p)\not=0$ is stronger than $e_a(p)\not=0$. So, $\{p\in P\colon f(p)\not=0\}\subseteq \{p\in P\colon e_a(p)\not=0\}$. It follows that $\{p\in P\colon f(p)\not=0\}$ is bounded. Hence,we have $f\in \mathcal{F}$.\\
+    Since the function $a\mapsto e_a$ is a surjection from $\mathbb{N}^+$ to $\mathcal{F}$, we can fix some $k\in \mathbb{N}^+$ such that $f=e_k$. Then, $e_k(p)\leq e_a(p)$ and $e_k(p)\leq e_b(p)$ for all $p\in P$. Therefore, $k\mid a$ and $k\mid b$.\\
+    If $d\mid a$ and $d\mid b$, then $e_d(p)\leq e_a(p)$ and $e_d(p)\leq e_b(p)$ for all $p\in P$. Therefore, $e_d(p)\leq \min\{e_a(p), e_b(p)\}=f(p)=e_k(p)$ for all $p\in P$. We conclude that $d\mid k$.
+\end{proof}
+
+\begin{remark}
+    We need to prove $f$ has finite support before applying the properties of the functions with finite support.
+\end{remark}
+
+\vspace{6mm} %5mm vertical space
+
+\subsection{Modular Arithmetic}
+\begin{definition}
+    (\textit{The Remainder Function}) Fix $b\in\mathbb{N}^+$. Denote the set $\{0,1,2,..., b-1\}$ by $[b]$.  $R_b\colon \mathbb{Z}\rightarrow [b]$ is the function which maps $a\in \mathbb{Z}$ to the remainder of $a$ when $a$ is divided by $b$.
+\end{definition}
+\begin{remark}
+    By the division theorem, $R_b\colon \mathbb{Z}\rightarrow [b]$ is well defined.
+\end{remark}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{proposition}
+    $R_b\colon \mathbb{Z}\rightarrow [b]$ is onto but not one-to-one.
+\end{proposition}
+\begin{proof}
+    For every $c\in [b]$, we have $c\in \mathbb{Z}$ such that $R_b(c)=c$. So $R_b$ is onto. Notice that $R_b(c)=R_b(c+b)$ and $c\not=c+b$, so $R_b $ is not one-to-one.
+\end{proof}
+\vspace{2mm} %5mm vertical space
+
+\begin{proposition}
+    $R_b(a)=R_b(a')$ if and only if $b\mid (a-a')$
+\end{proposition}
+\begin{proof}
+    ($\Rightarrow$) Suppose  $R_b(a)=R_b(a')=r$. Fix $q,q'\in \mathbb{Z}$ such that $r=a-bq=a'-bq'$. Rearranging, we have $a-a'=b(q-q')$. Thus, $b\mid (a-a')$\\
+    ($\Leftarrow$) (By contrapositive) Suppose $a-bq=r $ and $a'-bq'=r'$. WLOG, assume $r>r'$. Then, $(a-a')=b(q-q')+(r-r')$. Since $0<r'<r<b$, we have $0<r-r'<b$. Thus, $b$ does not divide $a-a'$. 
+\end{proof}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{definition}
+    (\textit{+ on $[b]$}) Addition on [b] is the function $+_b\colon [b]\times [b]\rightarrow[b]$ such that 
+    \begin{equation*}
+        R_b(a)+_bR_b(a')=R_b(a+a')
+    \end{equation*}
+\end{definition}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{proposition}
+    $+_b$ is well defined.
+\end{proposition}
+
+\begin{proof}
+    First, since $R_b$ is onto, for each $c$ and each $d$ in $[b]$, there is $a\in \mathbb{Z} $ such that $c=R_b(a)$ and there is $a'\in \mathbb{Z} $ such that $d=R_b(a')$. And since $R_b$ is well defined, for each $(c,d)\in [b]\times[b]$, $R_b(a+a')$ will output some value.\\ 
+    Second, we need to prove that for each $(c,d)\in [b]\times [b]$, $c+_bd$ has at most one value.\\
+    Suppose $c=R_b(a_1)=R_b(a_2)$ and $d=R_b(a_1')=R_b(a_2')$. We shall prove that $R_b(a_1+a_1')=R_b(a_2+a_2')$. Fix $q_1,q_2, q_1', q_2'\in \mathbb{Z}$ such that 
+    \begin{equation}
+        c=a_1-bq_1=a_2-bq_2 \hspace{2mm} \text{ and } \hspace{2mm} d=a_1'-bq_1'=a_2'-bq_2' 
+    \end{equation}
+    Rearranging, we have
+    \begin{equation}
+            a_1+a_1'=b(q_1+q_1')+(c+d) \hspace{2mm} \text{ and } \hspace{2mm} a_2+a_2'=b(q_2+q_2')+(c+d)
+    \end{equation}
+    Subtracting the two equations, we obtain
+    \begin{equation}
+      ( a_1+a_1')-(a_2+a_2')=b((q_1+q_1')-(q_2+q_2'))
+    \end{equation}
+    Clearly, $b\mid ( a_1+a_1')-(a_2+a_2')$. By \textbf{Proposition 6.7.3}, we are done.
+
+\end{proof}
+\begin{remark}Two subtleties in this proof
+\begin{itemize}
+    \item  For each $c\in[b]$, there are in fact infinitely many $a$ such that $R_b(a)=c$. Likewise for $d$. So we need to justify that regardless of the choices of $a$ and $a'$, the output value is the same, i.e., the output only depends on $c$ and $d$ and it is unique.
+    \item One cannot conclude from Equation (2) that $R_b(a_1+a_1')=c+d=R_b(a_2+a_2')$ because $c+d$ may be greater or equal to $b$. To resolve this issue, one could use either Proposition 6.7.3 or the division theorem.
+\end{itemize}
+   
+\end{remark}
+
+\vspace{6mm} %5mm vertical space
+
+\subsection{Congruence Classes}
+
+\begin{definition}
+    Fix $b\in \mathbb{N}^+$. We say that $a$ and $a'$ are congruent$\mod b$ if $b\mid (a-a')$.
+   (Recall that $R_b(a)=R_b(a')$ if and only if $b\mid (a-a')$.)
+\end{definition}
+
+\vspace{2mm} %5mm vertical space
+
+\begin{definition}
+    Define a function $C_b\colon \mathbb{Z}\rightarrow \mathcal{P}(\mathbb{Z})$ by 
+    \begin{equation*}
+       C_b(a)=\{a'\in \mathbb{Z}\colon b\mid (a-a')\}=\{a'\in \mathbb{Z}\colon R_b(a)=R_b(a')\}
+    \end{equation*}
+\end{definition}
+
+\begin{remark}
+    Let $Q_b\subseteq \mathbb{Z}$ denote the range of $C_b$. We restrict codomain of $C_b$ to  $Q_b$ so that $C_b$ is onto.
+\end{remark}
+
+\vspace{2mm}
+
+\begin{proposition}
+    If $b\mid (a-a')$, then $C_b(a)=C_b(a')$.
+\end{proposition}
+\begin{proof}
+    By Proposition 6.7.3, we have $R_b(a)=R_b(a')$.\\
+    ($\subseteq$) Take $c\in C_b(a)$, then $R_b(a)=R_b(c)$. Since $R_b(a)=R_b(a')$, we have $R_b(c)=R_b(a')$. So $c\in C_b(a') $.\\
+    ($\supseteq$) $C_b(a)\supseteq C_b(a')$ follows analogously.
+\end{proof}
+
+\vspace{2mm}
+
+\begin{theorem}
+    (\textit{Universal Property of $C_b\colon \mathbb{Z}\rightarrow Q_b$}) Suppose X is a set and $f\colon \mathbb{Z}\rightarrow X$ is a function such that if $b\mid (a-a')$, then $f(a)=f(a')$. Then there exists a unique function $g\colon Q_b\rightarrow X $ such that $f=g\circ C_b$.  (One should take note that $f(a)$ could be equal to $f(a')$ even if $b\nmid (a-a') $.)
+\end{theorem}
+    
+
+
+\begin{example}
+    Let's first consider some special $f$ and find out their corresponding $g$.
+    \begin{enumerate}
+        \item If  $f\colon \mathbb{Z}\rightarrow X$ is a constant function that maps all integers to $x\in X$,  then $g\colon Q_b\rightarrow X $ is also a constant function which maps all $C\in Q_b$ to $x\in X$.
+        \item If $f$ is $C_b\colon \mathbb{Z}\rightarrow Q_b$, then  $g\colon Q_b\rightarrow Q_b $ is the identity function.
+        \item If $f$ is $R_b\colon \mathbb{Z}\rightarrow [b]$, then $g\colon Q_b\rightarrow [b]$ is such that $g(C_b(a))=R_b(a)$
+    \end{enumerate}
+\end{example}
+
+\begin{proof}
+    We shall prove the existence and uniqueness separately.\\
+    (\textit{Existence}) Define $g\colon Q_b \rightarrow X $ by $g(C)=f(a)$ for each $a\in C$. We shall prove that $g$ is well defined. Consider $C\in Q_b$ and take $a\in 
+    \mathbb{Z}$ such that $C=C_b(a)$. Fix $a_1, a_2\in C_b(a) $. Then, $b\mid (a-a_1)$ and $b\mid (a-a_2)$. By assumption, $f(a)=f(a_1)$ and $f(a)=f(a_2)$. Therefore, $f(a_1)=f(a_2)$. So the value of $g(C)$ is unique for all $a\in C$. Therefore, $g$ is well defined. Furthermore,  since $a\in C_b(a)$, one can check that $g\circ C_b(a)=g(C_b(a))=f(a)$. \\
+    (\textit{Uniqueness}) Suppose we have $h\colon Q_b\rightarrow X $ such that $f=h\circ C_b$. For each $C_b(a)\in Q_b$, we have $h(C_b(a))=f(a)=g(C_b(a))$.
+\end{proof}
+
+\begin{remark}
+    Every $C \in Q_b$ is of the form $C_b(a)$. So instead of writing " consider $C \in Q_b$ take $a\in \mathbb{Z}$ such that $C=C_b(a)$", one can simply write "take $C_b(a)\in Q_b$".
+  \end{remark}
+  \begin{remark}
+   From the earlier example, $C_b\colon \mathbb{Z}\rightarrow Q_b$ is an example of $f$. So the universal property is saying that the function $C_b$ is the 'source' of all functions $f$, i.e., all functions $f$ with a certain property can be obtained from a function $C_b$ with the same property (by composing some g to $C_b$).
+  \end{remark}
+  
+  \vspace{2mm}
+  
+  \begin{proposition}
+      For every function $g\colon Q_b\rightarrow X $, the function $g\circ C_b\colon \mathbb{Z}\rightarrow X$ is an example of $f$. 
+  \end{proposition}
+  \begin{proof}
+      By Proposition 6.8.3, whenever $b\mid (a-a')$, we have $C_b(a)=C_b(a')$. It follows that $g(C_b(a))=g(C_b(a'))$, .i.e., $g\circ C_b (a)=g\circ C_b (a')$
+  \end{proof}
+  
+  \vspace{2mm}
+  
+  \begin{proposition}
+          Fix $b\in \mathbb{N}^+$ and function $C_b\colon \mathbb{Z}\rightarrow Q_b$. For each set $X$ there is a bijection between the following two sets of functions:
+      \begin{equation*}
+          \begin{split}
+              &G=\{g\colon g \text{ is a function from } Q_b \text{ to } X\}\\
+              &F=\{f\colon f \text{ is a function from } Z \text{ to } X \text{ such that if } b\mid (a-a') \text{, then } f(a)=f(a') \}
+          \end{split}
+      \end{equation*}
+      given by $g\mapsto g\circ C_b$.
+  \end{proposition}
+  
+  \begin{proof}
+      First, we prove that $g\mapsto g\circ C_b$ is well defined. For each $g \in G$, $g\circ C_b$ is the only output. Furthermore, by Proposition 6.8.5, we have $g\circ C_b\in F$. So  $g\mapsto g\circ C_b$ is well defined.\\
+      To prove $g\mapsto g\circ C_b$ is one-to-one, fix $g_1, g_2 \in G$. Suppose $f=g_1\circ C_b=g_2\circ C_b$. By Theorem 6.8.4, there is a unique $g \in G$ such that $f=g\circ C_b$. Thus, we have $g_1=g=g_2$.\\
+      To prove $g\mapsto g\circ C_b$ is onto, consider $f \in F$. By Theorem 6.8.4, there is a unique $g\in G$ such that $f=g\circ C_b$.
+      
+ \end{proof}
+
+ \newpage
+  
+\section{Chapter 7 Equivalence Relations}
+
+\subsection{Equivalence Relation and Quotient Map}
+\begin{definition}
+    (\textit{Equivalence Relations}) A relation $\thicksim$ on a set $A$ is an equivalence relation if:
+    \begin{itemize}
+        \item it is reflexive, i.e., $(\forall a\in A)(a\thicksim a)$
+        \item it is symmetric, i.e., $(\forall a, b \in A)(a\thicksim b \rightarrow b\thicksim a)$
+        \item it is transitive, i.e., $(\forall a,b,c \in A)((a\thicksim b \wedge b\thicksim c)\rightarrow a\thicksim c)$
+    \end{itemize}
+\end{definition}
+
+\vspace{2mm}
+
+\begin{proposition}
+    Suppose $f$ is a fixed function with domain $A$. Define a relation on $A$ by
+    \begin{quote}
+        \centering $a\eq b$ if $f(a)=f(b)$.
+    \end{quote}
+    Then, $\eq$ is an equivalence relation.
+\end{proposition}
+
+\vspace{2mm}
+
+\begin{definition}
+    (\textit{Equivalence Class}) For each $a\in A$, the set $\{a'\in A\colon a'\thicksim a\}$ is called the equivalence class of $a$. We denote it by $[a]_{\thicksim}$
+\end{definition}
+
+\vspace{2mm}
+
+\begin{proposition}
+   Suppose $\thicksim$ is an equivalence relation on $A$ and $a, b \in A$. If $a\thicksim b$, then $[a]_{\thicksim}=[b]_{\thicksim}$.
+\end{proposition}
+
+\begin{proof}
+    ($\subseteq$) Fix $a'\in [a]_{\thicksim}$. Then, 
+     $a\thicksim a'$ and $a'\thicksim a$ by the symmetric property.  Since $a\thicksim b$, we have $a'\thicksim b$ by transitivity. So $a\in[b]_{\eq}$.
+    ($\supseteq$) This direction follows analogously. 
+\end{proof}
+
+\vspace{2mm}
+
+
+\begin{definition}
+    (\textit{Quotient}) Suppose $\thicksim$ is an equivalence relation on $A$. The quotient, denoted by $A/\thicksim$, is defined to be the set
+    \begin{equation*}
+        \{\{a'\in A\colon a'\thicksim a\}\in \mathcal{P}(A)\colon a\in A\}=\{[a]_{\thicksim}\in \mathcal{P}(A)\colon a\in A\}
+    \end{equation*}
+    In other words,  $A/\thicksim \subseteq \mathcal{P}(A) $ is the set of all equivalence classes.
+\end{definition}
+
+\vspace{2mm}
+
+\begin{definition}
+    (\textit{Quotient Map}) Suppose $\thicksim$ is an equivalence relation on $A$. The quotient map $\pi \colon A\rightarrow A/\thicksim$ is defined by $\pi(a)=[a]_{\thicksim}$.
+\end{definition}
+
+\vspace{2mm}
+    
+\begin{proposition}
+    $\pi \colon A\rightarrow A/\thicksim$ is onto but not one-to-one (unless $\thicksim$ is equality).
+\end{proposition}
+
+\vspace{2mm}
+
+\begin{theorem}
+    (\textit{Universal Property of $\pi \colon A\rightarrow A/\thicksim$}) For every set $X$ and every function $f\colon A \rightarrow X$ such that if $a\thicksim b$, then $f(a)=f(b)$, there is a unique function $g\colon A/\thicksim \rightarrow X$ such that $f=g\circ \pi$.
+\end{theorem}
+
+\begin{proof}
+    Define $g\colon A/\thicksim \rightarrow X$ by $g([a]_{\thicksim})=f(a)$ for all $a \in [a]_{\thicksim}$.\\
+    To prove $g$ is well defined, consider $[a]_{\thicksim}\in A/\thicksim$. 
+    Fix $a_1, a_2\in [a]_{\thicksim} $. Then, $a_1\thicksim a_2$ and 
+    $a_2\thicksim a_1$. By symmetry and transitivity, we have $a_1\thicksim a_2$.
+    By assumption, $f(a_1)=f(a_2)$. Furthermore, since $a\in [a]_\thicksim$, 
+    $g\circ \pi(a)=g(\pi(a))=g([a]_\thicksim)=f(a)$\\
+    To prove $g$ is unique, suppose $h\colon A/\thicksim \rightarrow X$ is 
+    such that $f=h\circ \pi$.  For every $[a]_{\thicksim}\in A/\thicksim$, 
+    we have $h([a]_{\thicksim})=f(a)=g([a]_{\thicksim})$ as desired.
+\end{proof}
+
+\vspace{5mm}
+
+\subsection{Treating $\thicksim$ as Equality}
+
+
+\begin{notation}
+    For all sets $A$ and $B$,  $\mathrm{Maps}(A,B)$ denote the set of all functions from $A$ to $B$.
+
+\end{notation}
+
+\begin{proposition}
+    Suppose $\thicksim$ is an equivalence relation on $A$. For each set $X$ the function defined by
+    \begin{equation*}
+        \begin{split}
+            \mathrm{Maps}(A/\thicksim, X)&\rightarrow\{f\in \mathrm{Maps}(A,X)\colon (\forall a, a'\in A)(a\thicksim a' \rightarrow f(a)=f(a')) \}\\
+           g&\mapsto g\circ \pi
+        \end{split}
+    \end{equation*}
+    is a bijection.
+\end{proposition}
+
+\begin{proof}
+    First, one can check $g\circ \pi$ is a function from $A$ to $X$. Furthermore, for all $a,a'
+    \in A$, if $a\thicksim a'$, then $[a]_{\thicksim}=[a']_{\thicksim }$. Thus, if $a\thicksim a'$, then $g\circ\pi (a)= g([a]_{\thicksim })=g([a']_{\thicksim })=g\circ\pi(a')$.
+    So $g\circ \pi\in \{f\in \mathrm{Maps}(A,X)\colon (\forall a, a'\in A)(a\thicksim a' \rightarrow f(a)=f(a')) \}$. Lastly, it is clear that for each $g\in \mathrm{Maps}(A/\thicksim, X)$, $g\circ \pi$ is the only output.\\
+    To prove injectivity, take $g, g'\in \mathrm{Maps}(A/\thicksim, X)$. Suppose for all $a\in A$, $g\circ\pi(a)=g'\circ\pi(a)$. Then, $g([a]_{\thicksim })=g'([a]_{\thicksim })$ for each $a\in A$. 
+    So, $g([a]_{\thicksim })=g'([a]_{\thicksim })$ for each $[a]_{\thicksim}\in A/\thicksim$ as desired.\\
+    To prove surjectivity, take $f\in\{f\in \mathrm{Maps}(A,X)\colon (\forall a, a'\in A)(a\thicksim a' \rightarrow f(a)=f(a')) \}$.
+    By the universal property, there is a unique function $g\in \mathrm{Maps}(A/\thicksim, X)$
+    such that $f=g\circ \pi$.
+
+\end{proof}
+
+\begin{remark}
+If we wish to treat $\thicksim$ as equality, then we should work in the quotient set.:
+\begin{enumerate}
+    \item  If we want to work with some $f\in F$, it is equivalent to work with the corresponding $g\in G$. Notice that functions on $A/\thicksim$ treats $\thicksim$ as equality, because all it sees are $\thicksim$ classes, not elements of $A$.
+    
+    \item  All functions $f$  treat $\thicksim$ as equality since $a\thicksim a'\rightarrow f(a)=f(b) $. By the universal property, all such $f$ come from $\pi$.    
+\end{enumerate}
+\end{remark}
+
+\vspace{5mm}
+
+\subsection{Constructing functions with domain $A/\thicksim$}
+In order to define a function from $A/\thicksim$ to $X$, it suffices to define a function $f\colon
+ A\rightarrow X$ such that if $a\thicksim a'$, then $f(a)=f(b)$, and then apply the universal property to find $g$.
+ ($g([a]_{\thicksim})=f(a)$).\\
+ In fact, by Proposition 7.2.2, every function $g\colon A/\thicksim\rightarrow X$ can be obtained in this way.
+
+ \vspace{5mm}
+
+
+ \subsection{Equivalence relations and partitions}
+ \begin{proposition}
+    Let $\thicksim$ be an equivalence relation on A. For every $a, a'\in A$,  the following are equivalent:
+    \begin{equation*}
+    (1)\, a\thicksim a' \hspace{4mm} (2)\, [a]_{\thicksim}=[a']_{\thicksim} \hspace{4mm} 
+    (3)\, (\exists b\in A)(a,a'\in[b]_{\thicksim})  \hspace{4mm} (4)\, [a]_{\thicksim}\cap [a']_{\thicksim}\not=\emptyset
+    \end{equation*}
+   
+ \end{proposition}
+ 
+\begin{proof}
+    (1)$\Rightarrow$(2): By propositon 7.1.4 .\\
+    (2)$\Rightarrow$(3): Suppose $[a]_{\thicksim}=[a']_{\thicksim}$. Then, by reflexivity, we have
+    $a\in[a]_{\eq}$ and $a'\in [a']_{\eq}=[a]_{\eq}$. Thus, $a,a'\in [a]_{\eq}$ as desired.\\
+    (3)$\Rightarrow$(4): Suppose  $a,a'\in[b]_{\thicksim}$, then $a\eq b$ and $a'\eq b$. 
+    By symmetric property, we have $b\eq a$ and $b\eq a'$. Thus, we have $b\in [a]_{\thicksim}\cap [a']_{\thicksim}$
+    as desired.\\
+    (4)$\Rightarrow$(1): Suppose $[a]_{\thicksim}\cap [a']_{\thicksim}\not=\emptyset$. Then, there exists
+    $b\in [a]_{\thicksim}\cap [a']_{\thicksim}$ such that $a\eq b$ and $a'\eq b$.
+    By symmetry and transitivity, we have $a\eq a'$ as desired.
+
+\end{proof}
+
+\begin{remark}
+    This proposition essentially tells us that if two equivalence classes are different as sets, 
+    then they are disjoint. ((2) and (4))
+\end{remark}
+
+\vspace{3mm}
+
+\begin{definition}
+    A set $P\subseteq \mathcal{P}(A)-\{\emptyset\}$ is a partition of $A$ if
+    \begin{enumerate}
+        \item $\bigcup P=A $
+        \item ($\forall C, D \in P$)($C=D \vee C\cap D=\emptyset$).
+    \end{enumerate}
+\end{definition}
+
+\vspace{2mm}
+
+\begin{proposition}
+    For every equivalence relation $\eq$ on $A$, the quotient set $A/\eq$ is a partition of $A$.
+\end{proposition}
+
+\begin{proof}
+    First, $\emptyset\not\in \quotient$. This holds because for each $a\in A$, 
+    $a\in[a]_{\eq}$ by reflexivity.\\
+    Second, we need to show $\bigcup \quotient=A $. ($\subseteq$) Fix $x\in \bigcup \quotient $.
+    Then, there is some $a\in A$ such that $x\in [a]_{\eq}$. Since $[a]_{\eq}\subseteq A$, 
+    we have $x\in A$. ($\supseteq$) Fix $a\in A$. By reflexivity, we have $a\in[a]_{\eq}$.
+    Thus, $a\in \bigcup \quotient$.\\
+    Third, by proposition 7.4.1, equivalence classes are disjoint.
+\end{proof}
+
+\vspace{2mm}
+
+\begin{proposition}
+    Suppose $P$ is a partition of $A$, and the relation $\eq$ on $A$ is defined by 
+    \begin{quote}
+        \centering For all $a,b\in A$,  $a\eq b$ if there exists some $C\in P$ such that $a,b\in C$.
+    \end{quote}
+    Then, $\eq$ is an equivalence relation on $A$. Furthermore, $P=A/\eq$.
+\end{proposition}
+
+\begin{proof}
+First, we prove that $\eq$ is an equivalence relation.\\
+\underline{Reflexivity}: Fix $a\in A$. Since $P$ is a partition of $A$, 
+we have $\bigcup P=A $. Thus, $a\in\bigcup P$. So there is a $C\in P$ such that 
+$a\in C$. Hence, $a\eq a$ as desired.\\
+\underline{Symmetry}: Suppose $a\eq b$, i.e., there is a $C\in P$ such that $a,b\in C$.
+Then, it is trival that $b\eq a$.\\
+\underline{Transitivity}: Suppose $a\eq b$ and $b\eq c$. Then, there are $C_1, C_2\in P$
+such that $a,b\in C_1$ and $b,c\in C_2$. Since $C_1\cap C_2\not=\emptyset$ (because they have a common element $b$),
+we have $C_1=C_2=C$. Thus, $a,c\in C$ as desired.\\
+Second, we shall prove that $P=\quotient=\{\{a'\in A\colon a'\thicksim a\}\in \mathcal{P}(A)\colon a\in A\}$.\\  
+($\subseteq$) Fix an arbitrary $C\in P$ and suppose $a\in C$. By definition, for all $a'\in A$, if $a'\in C$, then $a'\eq a$. 
+This means that $C$ is an equivalence class. So we have $C\in A/{\eq}$. \\
+($\supseteq$) Fix $[a]_{\eq}\in A/\eq$. $a'\eq a$ for all $a'\in[a]_{\eq}$.
+So there exists  $C\in P$ such that $a\in C$ and for all $a'\in [a]_{\eq} $,  $a'\in C$. Furthermore,
+for all $x\in C$, $x\eq a$. Thus, $x\in[a]_{\eq}$. It follows that $C=[a]_{\eq}$. Thus, $[a]_{\eq}\in P$. 
+\end{proof}
+
+\begin{remark}
+    This result tells us that given a partition of $A$, we can define an equivalence relation
+    on $A$, and the quotient set of this equivalence relation is the partition that we start with.
+
+\end{remark}
+
+\vspace{2mm}
+
+\begin{proposition}
+The function 
+\begin{equation*}
+    \begin{split}
+        \mathcal{G} \colon \{\text{equivalence relations on } A\}&\rightarrow \{\text{partitions of } A\}\\
+        \eq&\mapsto A/\eq
+    \end{split}
+\end{equation*}
+is a bijection.
+\end{proposition}
+
+\begin{proof}
+    First, check that $\mathcal{G}$ is well defined. By proposition 7.4.3, for each 
+    $\eq$ on $A$,  there is a $A/\eq  \in \{\text{partitions of } A\}$. By definition, the quotient set is unique for each $\eq$ on $A$.\\
+    $\mathcal{G}$ is onto because by proposition 7.4.4, for each partition $P$, we can define
+    an equivalence relation on $A$ such that $P$ is the quotient set.\\
+    To prove that $\mathcal{G}$ is one-to-one, recall that by proposition 7.4.1, if $\eq$
+    is an equivalence relation on $A$, then $a\eq b$ if and only if there is some $C\in A/\eq$
+    such that $a,b \in C$.\\
+    Based on proposition 7.4.4, we define a new function
+    \begin{equation*}
+        \mathcal{H}\colon \{\text{partitions of } A\}\rightarrow \{\text{equivalence relations on } A\}
+    \end{equation*}
+    by
+    \begin{quote}
+        \centering $\mathcal{H}(P)=\eq$ if for all $a,b\in A$, $a\eq b$ whenever there is $C\in P$ such that $a,b\in C$
+    \end{quote}
+    By proposition 7.4.4,  $\mathcal{H}$ is well defined. Furthermore, we have
+    \begin{equation*}
+        \mathcal{H}\circ\mathcal{G}(\eq)=\mathcal{H}(A/\eq)=\eq
+    \end{equation*}
+    So $\mathcal{H}\circ\mathcal{G}=\mathrm{id}_{\{\text{equivalence relations on } A\}} $. By proposition
+    5.4.4, $\mathcal{G}$ is one-to-one.
+
+\end{proof}
+
+\vspace{5mm}
+
+\subsection{Range isomorphic to quotient by some equivalence relation}
+Fix a set $B$ and a function $\fun{\sigma}{A}{B}$ which is onto. Define an equivalence relation $\eq$
+on $A$ by: $a\eq a'$ if $\sigma(a)=\sigma(a')$.
+
+\begin{theorem}
+    For every set $X$ and every function $\fun{f}{A}{X}$ such that if $a\eq b$, then $f(a)=f(b)$, there is
+    a unique function $\fun{h}{B}{X}$ such that $f=h\circ \sigma$.
+\end{theorem}
+
+\begin{proof}
+    Define $\fun{h}{B}{X}$ by
+    \begin{quote}
+       \centering for each $b\in B$,  $h(b)=f(a)$
+    \end{quote}
+    where $a\in A$ is such that $\sigma (a)=b$. $\sigma$ being onto guarantees the existence of such $a$.\\
+    To prove that $h$ is well defined, fix $b\in B$ and consider $a, a'\in A$ such that $\sigma(a)=b=\sigma(a')$.
+    Then, by definition, $a\eq a'$. Therefore, by assumption, $f(a)=f(a')$. Furthermore, one can check that
+    $h\circ \sigma (a)=h(b)=f(a)$ as desired.\\
+    To prove that $h$ is unique, suppose $\fun{h'}{B}{X}$ is such that $f=h'\circ \sigma$. Then, for 
+    each $b\in B$, we have $h'(b)=h'\circ \sigma (a)=f(a)=h(b)$ as desired.
+\end{proof}
+
+\vspace{2mm}
+
+\begin{coro}
+There is a  unique function $\fun{h}{B}{A/\eq}$ such that $\pi=h\circ \sigma$.
+\end{coro}
+\begin{proof}
+    Apply theorem 7.5.1 by replacing X with $A/\eq$ and $f$ with $\pi$.
+\end{proof}
+
+\vspace{2mm}
+
+\begin{theorem}
+    (\textit{Universal property for $\pi$}) For every set $X$ and every function $\fun{f}{A}{X}$,
+    such that if $a\eq b$, then $f(a)=f(b)$, there is a unique function $\fun{g}{A/\eq}{X}$
+    such that $f=g\circ \pi$. 
+\end{theorem}
+
+\vspace{2mm}
+
+\begin{coro}
+There is a unique function $\fun{g}{A/\eq}{B}$ such that $\sigma=g\circ \pi$.
+\end{coro}
+
+\begin{proof}
+  Apply the universal property by replacing $X$ with $B$ and $f$ with $\sigma$.  
+\end{proof}
+
+\vspace{3mm}
+
+\leftline{Putting Corollary 7.5.4 and 7.5.2 together, we have the following result}
+\begin{proposition}
+    $\fun{h}{B}{A/\eq}$ and $\fun{g}{A/\eq}{B}$ are bijections which are inverses of each other.
+\end{proposition}
+
+\begin{proof}
+    $\mathrm{id}_{A/\eq}\circ \pi=\pi=h\circ \sigma=h\circ (g\circ \pi)=(h\circ g)\circ \pi$.  So $h\circ g=\mathrm{id}_{A/\eq}$, since $\pi$ is onto.\\
+    Similarly, $\mathrm{id}_{B}\circ \sigma=\sigma=g\circ \pi=g\circ (h\circ \sigma)=(g\circ h)\circ \sigma$.  So $g\circ h=\mathrm{id}_{B}$, since $\sigma$ is onto.\\
+    By proposition 5.4.3 and 5.4.6, $g$ and $h$ are bijections which are inverses of each other.
+\end{proof}
+\begin{remark}
+    \hfill
+    \begin{enumerate}
+        \item This means that $B$ and $A/\eq$ are "isomorphic". Intuitively, $B$ and $A/\eq$ are of the same "size".
+        \item This reasoning (two objects satisfying the same universal property can be proved to be isomorphic) can be applied in other contexts.
+    \end{enumerate}
+\end{remark}
+
+\vspace{5mm}
+
+\subsection{Construction of $\bb{Z}$ from $\bb{N}$ }
+Assume that we have defined $\bb{N}$  and addition + on $\bb{N}$. We have not defined - on $\bb{N}$
+because $\bb{N}$ is not closed under - (or we can only "partially define" - on $\bb{N}$).
+
+\begin{definition}
+    Define relation $\eq$ on $\bb{N}\times\bb{N}$ by
+    \begin{equation*}
+        (m,n)\eq (p,q) \quad \mathrm{if} \quad m+q=p+n
+    \end{equation*}
+    (Note that the above definition uses addition but not subtraction.)
+\end{definition}
+
+\begin{proposition}
+    $\eq$ defined above is an equivalence relation.
+\end{proposition}
+
+\begin{definition}
+    (\textit{The Set of Integeres}) The set of integers, denoted by $\bb{Z}$,  is defined to be the set $\bb{N}\times \bb{N}/\eq$,
+     where $\eq$ is the equivalence relation defined above.
+\end{definition}
+
+\begin{remark}
+    Notice that the set of natural numbers is not a subset of integers. But
+    the set $\{[(n,0)]_{\eq}\colon n\in\bb{N}\}$ behaves like $\bb{N}$, i.e., it has all
+    the properties that $\bb{N}$ has (when we restrict $+_{\bb{Z}}$, $\cdot_{\bb{Z}}$, etc to it.)
+
+\end{remark}
+\begin{definition}
+    (\textit{Addition on $\bb{Z}$}) Define $+_{\bb{Z}}\colon \bb{Z}\times\bb{Z}\rightarrow \bb{Z}$ as
+    \begin{equation*}
+        [(m,n)]_{\eq}+_{\bb{Z}}[(p,q)]_{\eq}=[(m+p, n+q)]_{\eq}
+    \end{equation*}
+\end{definition}
+
+\begin{proposition}
+    \hfill
+    \begin{enumerate}
+        \item $+_{\bb{Z}}\colon \bb{Z}\times\bb{Z}\rightarrow \bb{Z}$ is well defined.
+        \item $+_{\bb{Z}}$ is associative and commutative.
+        \item $[(0,0)]_{\eq}$ is an additive identity.
+        \item For each $[m,n]_{\eq}\in\bb{Z}$, there is a unique $[(p,q)]_{\eq}\in\bb{Z}$ 
+              such that $[(m,n)]_{\eq}+_{\bb{Z}}[(p,q)]_{\eq}=[(0,0)]_{\eq}$.
+    \end{enumerate}
+\end{proposition}
+
+\subsection{Construction of $\bb{Q}$ from $\bb{Z}$}
+Where $\bb{Z}$ extends $\bb{N}$ by adding additive inverse, we can think of $\bb{Q}$ as 
+extending $\bb{Z}$ by adding multiplicative inverses.
+
+\begin{definition}
+    Define a relation $\approx$ on $\bb{Z}\times (\bb{Z}-\{0_{\bb{Z}}\})$ by
+    \begin{equation*}
+        (a,b)\approx (c,d)\quad \mathrm{if} \quad a\cdot_{\bb{Z}}d=c\cdot_{\bb{Z}}b
+    \end{equation*}
+    One can check that $\approx$ is an equivalence relation.
+\end{definition}
+
+\begin{definition}
+    (\textit{The Set of Rational Numbers}) The set of rational numbers, denoted by $\bb{Q}$, is
+     defined to be the set $(\bb{Z}\times (\bb{Z}-\{0_{\bb{Z}}\}))/\approx$.
+\end{definition}
+\begin{remark}
+    $\bb{Z}$ is not a subset of $\bb{Q}$, but the set $\{[(a,1_{\bb{Z}})]_{\approx}\colon a\in \bb{Z}\}$
+    behaves like $\bb{Z}$.
+\end{remark}
+
+\newpage
+
+\section{Chapter 8 Cardinality and choice}
+
+\subsection{Equinumerous Sets}
+\begin{definition}
+    Two sets $X$ and $Y$ are equinumerous, written as $X\approx Y$,  if there is a bijection
+    from $X$ to $Y$.
+\end{definition}
+\vspace{2mm}
+\begin{proposition}
+    $\approx$ is reflexive, symmetric and transitive.
+\end{proposition}
+
+\begin{remark}
+    $\approx$ is not an relation. If $\approx$ were to be a relation, then it is defined on the 
+    “set” of all sets, which is not a set.
+\end{remark}
+\vspace{2mm}
+\leftline{Recall that $[n]=\{0,1,2,..., n-1\}$.}
+\begin{definition}
+   (\textit{Finite Sets}) A set $X$ is finite if $X\approx [n]$ for some $n\in \bb{N}$. Otherwise $X$ is infinite.
+\end{definition}
+\begin{remark}
+    Notice that when we list elements of a finite set $A$ without repetition, we are in fact
+    choosing a bijection between $A$ and $[n]$.
+\end{remark}
+\vspace{2mm}
+\begin{example}
+    
+\end{example}
+
+\subsection{Cantor's Theorem}
+\begin{theorem}
+    For every set $X$, we have $X\not\approx\mathcal{P}(X)$.
+\end{theorem}
+\begin{proof}
+    Suppose $\fun{f}{X}{\mathcal{P}(X)}$ is a function. Consider
+    \begin{equation*}
+        A=\{x\in X\colon x\not\in f(x)\}\in\mathcal{P}(X)
+    \end{equation*}
+    If there is some $x\in A$ such that $f(x)=A$, then $x\in f(x)$. But for all $x\in A$, we have $x\not\in f(x)$, a contradiction.\\
+    If there is some $x\in X-A$ such that $f(x)=A$, then $x\not\in f(x)$. Thus, $x\in A$, a contradiction.
+\end{proof}
+
+\begin{proposition}
+    If $X$ is finite and $\fun{f}{X}{X}$ is onto, then $f$ is one-to-one.
+\end{proposition}
+
+\begin{proposition}
+    There is an injection from $X$ to $\mathcal{P}(X)$.
+\end{proposition}
+
+\begin{proof}
+    
+\end{proof}
+
+\vspace{5mm}
+
+\subsection{Pigeonhole principle}
+\begin{theorem}
+    Every one-to-one function $\fun{f}{[n]}{[n]}$ must be onto.
+\end{theorem}
+
+\begin{proof}
+    We proceed by induction on $\bb{N}$.\\
+    \textbf{Base case}: Vacuously true.\\
+    \textbf{Inductive step}:  Suppose $n\in \bb{N}$ is such that every injective function 
+    $\fun{f}{[n]}{[n]}$ is onto. Consider an injection $\fun{f}{[n+1]}{[n+1]}$. We consider two cases:\\
+    \underline{Case 1}: For all $m\in [n]$, $f(m)\not=n$. Then one can check that $\fun{f\restrict[n]}{[n]}{[n]}$
+     is an injection. By induction hypothesis, $f\restrict [n]$ maps onto [n]. Sicne $f$ is injective, 
+     we must have $f(n)=n$. Therefore, $f$ is onto.\\
+     \underline{Case 2}: There exists some $m\in [n]$ such that $f(m)=n$. Since $f$ is injective,
+     $f(n)\not=n $. So $f(n)\in [n]$. We define $\fun{g}{[n]}{[n]}$ by
+     \begin{equation*}
+        g(k)=
+        \begin{cases}
+            f(n) & \text{ if } f(k)=n\\
+            f(k) & \text{ otherwise }
+        \end{cases}
+     \end{equation*}
+    First, one can check that $g$ is well defined because $f$ is well defined. To check $g$ is one-to-one, 
+    suppose $g(k)=g(k')$. If $g(k)=g(k')=f(k)=f(k')$. Since $f$ is one-to-one, we have $k=k'$.
+    If $g(k)=g(k')=f(n)$, then  $f(k)=f(k')=n$ (by definition). It follows that $k=k'$. Since $\fun{g}{[n]}{[n]}$ is one-to-one, by the induction hypothesis, $g$ is onto. 
+    It follows that $f$ is also onto.
+\end{proof}
+
+\vspace{2mm}
+
+\begin{coro}
+    For every $m<n$, there is no injection from $[n]$ to $[m]$. In particular, $[n]\not\approx[m]$.
+\end{coro}
+\begin{proof}
+    Suppose $\fun{f}{[n]}{[m]}$ is injective. Then, $f\restrict [m]$ is also an injection
+    from $[m]$ to $[m]$. By the Pigeonhole Principle, $f\restrict [m]$ is onto. \\
+    Notice that $f(m)\in [m]=\mathrm{range}(f\restrict[m])$, and since $f\restrict [m]$ is onto, there is some $k<m$ such that 
+    $f(k)=f(m)$. So $f$ is not injective, a contradiction.
+
+\end{proof}
+
+\vspace{2mm}
+
+\hypertarget{proposition 8.3.3}{\begin{proposition}
+    If $B$ is finite and $A\subsetneq B$, then there is no injection from $B$ to $A$. Therefore, no finite set 
+    is equinumerous to a proper subset of itself. See 
+    \hyperlink{proposition 8.10.8}{proposition 8.10.8} for applications.
+\end{proposition}}
+\begin{proof}
+    Suppose $\fun{f}{B}{A}$ is a function. Since $B$ is finite, we can fix $n\in \bb{N}$ and a bijection 
+    $\fun{g}{B}{[n]}$. Suppose towards a conntradiction that $f$ is injective, then
+    \begin{equation*}
+        g\circ f\circ g^{-1}\colon [n]\rightarrow [n]
+    \end{equation*}
+    is injective as well. By the Pigeonhole Principle, $ g\circ f\circ g^{-1}$ is onto.\\
+    Fix $b\in B-A$. $g(b)\in[n]$. So, there is some $m\in [n]$ such that $g\circ f\circ g^{-1}(m)=g(b)$.
+    Since $g$ is injective, we have $f\circ g^{-1}(b)=b$. But $b$ is not in the codomain of $f$, yielding a contradiction. 
+\end{proof}
+
+\begin{remark}
+    The contrapositive of this statement tells us that if a set is equinumerous to 
+    a proper subset of itself, then it is infinite. Hence, $\bb{N}$, $\bb{Z}$ and $\bb{R}$ are infinite.
+\end{remark}
+
+\vspace{5mm}
+
+\subsection{Cardinality of finite sets}
+
+\begin{proposition}
+    Every finite set is equinumerous to a unique $[n]$.
+\end{proposition}
+\begin{proof}
+   If $A$ is finite, then $A\approx [n]$ for some $n\in\bb{N}$. If $A\approx [n]$ and 
+   $A\approx [m]$, then by symmetry and transitivity, we have $[n]=[m]$.
+    By Corollary 8.3.2 we have $m=n$.
+\end{proof}
+
+\vspace{2mm}
+
+\begin{definition}
+   (\textit{Cardinality}) If $A\approx [n]$, we say that the cardinality of $A$, denoted by $|A|$, is equal to $n$.
+\end{definition}
+
+\vspace{2mm}
+
+\begin{proposition}
+    If $A\subsetneq [n]$, then $A$ is finite and $|A|<n$.
+\end{proposition}
+
+\begin{proof}
+    We proceed by induction on $\bb{N}$.\\
+    \textbf{Base Case}: $[0]$ has no proper subsets, so the statement is vacuously true.\\
+    \textbf{Inductive Step}: Suppose every proper subset of $[n]$ is equinumerous to $[m]$ for 
+    some $m<n$. Consider $A\subsetneq [n+1]$. \\
+    \underline{Case 1}: $n\not\in A$. If $A=[n]$, then we are done because $n<n+1$. If 
+    $A\subsetneq [n]$, then we are done by the induction hypothesis.\\
+    \underline{Case 2}: $n\in A$. Then $A-{n}\subsetneq [n]$ (because $A\subsetneq [n+1]$). By 
+    the induction hypothesis, $A-{n}\subsetneq [n]\approx [m]$ for some $m<n$. It follows that
+    $A\approx [m+1]$. 
+
+ \end{proof}
+ 
+ \vspace{2mm}
+
+\begin{proposition}
+    If $B$ is finite and $A\subsetneq B$, then $A$ is finite and $|A|<|B|$.
+\end{proposition}
+\begin{proof}
+    Since $B$ is finite, we can fix some $n\in \bb{N}$ and a bijection $\fun{g}{B}{[n]}$.
+    Take $b\in B-A$, we have $g(b)\not\in g[A]$ because $g$ is one-to-one. 
+    So, we have $g[A]\subsetneq [n]$. By proposition 8.4.3, $g[A]$ is finite. Since $A\approx g[A]$,
+    we have $A$, $A$ is finite and $|A|=|g[A]|<n$.
+\end{proof}
+
+\vspace{2mm}
+
+\begin{proposition}
+    If $A$ and $B$ are finite, then $|A|\leq|B|$ if and only if there is an injection from $A$ to $B$. (Every subset of a finite set is finite.)
+\end{proposition}
+\begin{proof}
+    ($\Leftarrow$) Fix an injection $\fun{f}{A}{B}$. Then $f[A]\subsetneq B$. \\
+    If $f[A]=B$, then $A$ is finite and $|A|=|B|$.\\
+    If $f[A]\subsetneq B$. By proposition 8.4.4, $f[A]$ is finite and $|A|=f[A]<|B|$ (as witnessed by the bijection $f\restrict A \colon f[A]$).\\
+    ($\Rightarrow$) Fix $m,n\in \bb{N}$ such that $|A|=m\leq n=|B|$. We can construct an injection
+    from $A$ to $B$ by
+    \begin{equation*}
+        A\approx [m] \xhookrightarrow{} [n]\approx B
+    \end{equation*}
+\end{proof}
+
+\vspace{2mm}
+\begin{lemma}
+    \hypertarget{Lemma 8.4.6}{If $A$ is nonempty} and there is an injection from $A$ to $B$, then there is a surjection from $B$ to $A$. (8.6.6)
+\end{lemma}
+\begin{proof}
+    Suppose $\fun{f}{A}{B}$ is an injection, then by proposition 5.4.4, there is a function
+    $\fun{g}{B}{A}$ such that $g\circ f=\mathrm{id}_A$. By proposition 5.4.5, $g$ is a surjection.
+\end{proof}
+\vspace{2mm}
+
+\begin{lemma}
+    Suppose $A$ is a set and $B\subseteq \bb{N}$. For every surjection $\fun{g}{B}{A}$, 
+    there is an injection $\fun{f}{A}{B}$ such that $g\circ f=\mathrm{id}_A$. (8.6.8)
+\end{lemma}
+
+\begin{proof}
+    Define $\fun{f}{A}{B}$ by $f(a)=\min(g^{-1}(a))$. $g^{-1}(a)$ is nonempty because $g$ is onto. By well ordering, $\min(g^{-1}(a))$ exists. So $f$ is well defined.\\
+    To prove  $f$ is injective, suppose $f(a)=\min(g^{-1}(a))=\min(g^{-1}(a'))=f(a')$. By definition,
+    we have $f(a)\in g^{-1}(a)$ and $f(a)\in g^{-1}(a)$. Hence, $a=g(f(a))=g(f(a'))=a'$ as desired.
+    Finally, one can check $g\circ f=\mathrm{id}_A$.
+\end{proof}
+\vspace{2mm}
+\begin{proposition}
+    If $A$ and $B$ are nonempty finite sets, then $|A|\leq|B|$ if and only if there is a 
+    surjection from $B$ to $A$.
+\end{proposition}
+\begin{proof}
+    ($\Rightarrow$) Since $|A|\leq |B|$, by proposition 8.4.5, there is an injection from $A$
+    to $B$. By lemma 8.4.6, there is a surjection from $B$ to $A$.\\
+    ($\Leftarrow$) Fix a surjection from $B$ to $A$. Since $B$ is finite, fix a bijection from
+    $[n]$ to $B$. By composition (of the above two functions), we have a surjection from $[n]$ to [A].
+    Since $[n]$ is a subset of $\bb{N}$, it follows from lemma 8.4.7  that there is an injection from 
+    $A$ to $[n]$. By proposition 8.4.5, $|A|\leq n= |B|$ as desired.
+\end{proof}
+
+\vspace{5mm}
+
+\subsection{Bounded versus Finite}
+\begin{definition}
+   $A\subseteq\bb{R}$ is bounded in $\bb{R}$ if there are $u,l\in \bb{R}$ such that for all 
+   $a\in A$, $l\leq a\leq u$. $\max(A)$ is defined to be the number $m\in A$ such that for all $a\in A$, $a\leq m$.
+\end{definition}
+
+\begin{remark}
+    Analogously, we can define “bounded ”, "max" and "min" in $\bb{N}, \bb{Z}, \bb{Q}$, provided that we have total ordering.
+\end{remark}
+
+\vspace{2mm}
+
+\begin{proposition}
+    If $A$ is a nonempty finite subset of  $\bb{N}, \bb{Z}, \bb{Q},\bb{R}$, then $\max(A)$ and $\min(A)$ exist.
+    In particular, $A$ is bounded. (Contrapositive: Every set which is unbounded in $\bb{N}, \bb{Z}, \bb{Q},\bb{R}$ is infinite.)
+\end{proposition}
+
+\vspace{2mm}
+
+\begin{proposition}
+    In $\bb{N}$, every bounded set is finite. A subset of $\bb{N}$ is finite if and only if 
+    it is bounded in $\bb{N}$.
+\end{proposition}
+\begin{proof}
+    If $b$ bounds $X$, then $X\subseteq [b+1]$. Since $[b+1]$ is finite, $X$ is finite.
+\end{proof}
+\begin{remark}
+    In other orders such as the standard ordering on $\bb{R}$, bounded sets may not be finite.
+\end{remark}
+
+\vspace{2mm}
+
+\hypertarget{proposition 8.5.4}{\begin{proposition}
+    Each of the following are sufficient for $A$ to be infinite.
+    \begin{enumerate}
+        \item $A$ is unbounded in $\bb{N}, \bb{Z}, \bb{Q},\bb{R}$.
+        \item there is an injection from an infinite set to $A$.
+        \item A is equinumerous with a proper subset of itself.
+    \end{enumerate}
+    See \hyperlink{Corollary 8.10.6}{corollary 8.10.6} for applications
+    \end{proposition} }
+
+\begin{proof}
+    (1) is not necessary for $A$ to be infinite.  (A can be infinite but bounded.)\\
+    To prove (2): Suppose towards a contradiction that $A$ is finite, $X$ is infinite and there is 
+    an injection $\fun{f}{X}{A}$. Then $f[x]\subseteq A$. So $f[X]$ is finite, which means $X$ is finite.\\
+    (2) is necessary because every infinite set is equinumerous to itself (in particular,  $\fun{\mathrm{id}}{A}{A}$ is an injection.)\\
+    (3) is true by proposition 8.3.3.
+\end{proof}
+
+\vspace{5mm}
+
+\subsection{Countability}
+\begin{definition}
+    A set is countable if it is finite (i.e., equinumerous to some $[n]$) or equinumerous to $\bb{N}$.\
+   (When a set is equinumerous to $\bb{N}$, we say it is countably infinite.)
+\end{definition}
+
+\vspace{2mm}
+
+\begin{proposition}
+    $\mathcal{P}(\bb{N})$ is uncountable.
+\end{proposition}
+
+\begin{proof}
+    We shall show that  $\mathcal{P}(\bb{N})$ is both infinite and not equinumerous to $\bb{N}$.\\
+    By Cantor's Theorem, $\bb{N}\not\approx\mathcal{P}(\bb{N})$. Also, there is an injection from
+    $\bb{N}$ to $\mathcal{P}(\bb{N})$. Since $\bb{N}$ is infinite, so is $\mathcal{P}(\bb{N})$.
+
+\end{proof}
+
+\vspace{2mm}
+
+\begin{proposition}
+    A set $A$ is countable if and only if there is an injection $\fun{f}{A}{\bb{N}}$.
+\end{proposition}
+
+\begin{proof}
+    ($\Rightarrow$) If $A\approx \bb{N}$, then there is a bijection from $A$ to $\bb{N}$.
+    If A is finite, then $A\approx [n]\xhookrightarrow{}\bb{N}$, which yields an injection from $A$ to $\bb{N}$.\\
+    ($\Leftarrow$) Fix an injection $\fun{f}{A}{\bb{N}}$. If $\mathrm{range}(f)$ is finite, then $A\approx f[A]\approx \mathrm{range}(f)$ is finite.\\
+    Otherwise, we construct a function $\fun{g}{\bb{N}}{\mathrm{range}(f)}$ by recursion on $n\in\bb{N}$.
+    \begin{equation*}
+        g(n)=\min (\mathrm{range}(f)-\{g(m)\colon m<n\})
+    \end{equation*}
+    Fisrt, we prove $g$ is well defined and one-to-one by strong induction.\\
+    Suppose for all $m<n$, $g(m)$ is well defined and $g(m)\not= g(m')$ for all $m'<m$.\\
+    Then, by the induction hypothesis,  $g\restrict [n]\colon [n]\rightarrow \{g(m)\colon m<n\} $ is a bijection. Hence,  $\{g(m)\colon m<n\}$ is finite.
+    Since $\mathrm{range}(f)$ is infinite, $\mathrm{range}(f)-\{g(m)\colon m<n\}$ is nonempty. (Otherwise, 
+    $\mathrm{range}(f)\subseteq\{g(m)\colon m<n\}$, implying that $\mathrm{range}(f)$ is finite.)
+    By well ordering, $\min (\mathrm{range}(f)-\{g(m)\colon m<n\})$ exists and it is not an element of $\{g(m)\colon m<n\}$.
+    Hence, $g(n)$ is well defined and injective.\\
+    Second, we prove $\fun{g}{\bb{N}}{\mathrm{range}(f)}$ is onto. Suppose towards a contradiction 
+    that $\mathrm{range}(f)-\mathrm{range}(g)$ is nonempty. Fix 
+    \begin{equation*}
+        l\in \min(\mathrm{range}(f)-\mathrm{range}(g))
+    \end{equation*}
+    Define the set $S=\{m\in\bb{N}\colon g(m)\geq l\}$ (to mirror the construction of $g$).\\
+    We claim $S$ is nonempty. Otherwise $\mathrm{range}(g)\subseteq[l]$, which means $\mathrm{range}(g)$
+    is finite. However, since $g$ is injective, we have $\bb{N}\approx \mathrm{range}(g)$, contradicting the 
+    fact that $\bb{N}$ is infinite.\\
+    Fix any $n\in S$. Now we have
+    \begin{itemize}
+        \item $l\in\mathrm{range}(f)$
+        \item $l\not\in\{g(m)\colon m<n\}$ (Since $l\not\in \mathrm{range}(g)$)
+        \item  $l< g(n)$ (Since $g(n)\geq l $ and $l\not\in \mathrm{range}(g)$)
+    \end{itemize}
+    Therefore, $l\in\mathrm{range}(f)-\{g(m)\colon m<n\}$, but $l<g(n)=\min(\mathrm{range}(f)-\{g(m)\colon m<n\}) $, yielding a contradiction.\\
+    One can check that $g^{-1}\circ f$ is a bijection, so $A\approx \bb{N}$. 
+
+\end{proof}
+
+\vspace{2mm}
+
+\begin{coro}
+    Every subset of a countable set is countable. The intersection of countable sets is countable.
+\end{coro}
+
+\begin{proof}
+    If $A\subseteq B$ and $B$ is countable, then we can fix an injection $\fun{f}{B}{\bb{N}}$.
+    Then $f\circ \iota \colon A\rightarrow \bb{N}$ is an injection.
+\end{proof}
+
+\vspace{2mm}
+
+\hypertarget{Corollary 8.6.5}{\begin{coro}
+    If $X\subseteq \bb{N}$ is infinite, then $X\approx \bb{N}$.\hyperlink{Corollary 8.10.6}{(see Corollary 8.10.6 for application)}
+    \end{coro}} 
+\begin{proof}
+This follows from the proof for $(\Leftarrow)$ in proposition 8.6.3: Fix an infinite $ X\subseteq \bb{N}$. We can construct a bijection $\fun{g}{\bb{N}}{X}$
+by replacing $\mathrm{range}(f)$ with $X$. Thus, $X\approx \bb{N}$.
+\end{proof}
+
+\vspace{2mm}
+
+
+\begin{proposition}
+    A nonempty set $A$ is countable if and only if there is a surjection from $\bb{N}$ to $A$. 
+\end{proposition}
+\begin{proof}
+    ($\Rightarrow$) Since $A$  is countable, by proposition 8.6.3, there is an injection from $A$ to 
+    $\bb{N}$. By \hyperlink{Lemma 8.4.6}{Lemma 8.4.6},  there is a surjection form $\bb{N}$ to $A$. ($\Leftarrow$) By Lemma 8.4.7, there is an injection from $A$ to $\bb{N}$. By 
+    proposition 8.6.3, $A$ is countable.
+\end{proof}
+
+\vspace{2mm}
+
+\begin{proposition}
+    The union of two countable sets is countable. 
+\end{proposition}
+
+\begin{proof}
+    Suppose $A$ and $B$ are countable. If one of them is empty, then clearly their union is countable. Otherwise,
+    fix (by proposition 8.6.6) surjections $\fun{f_1}{\bb{N}}{A}$ and $\fun{f_2}{\bb{N}}{B}$.
+    Define $\fun{g}{\bb{N}}{A\cup B}$ by 
+    \begin{equation*}
+        g(n)=
+        \begin{cases}
+            f_1(\frac{n}{2}) & \text{ if n is even}\\
+            f_2(\frac{n-1}{2}) & \text{ if n is odd}
+        \end{cases}
+    \end{equation*} 
+    To prove that $g$ is not onto, fix some $x\in A\cup B$.\\
+    If $x\in A$, there is some $n_1\in \bb{N}$ such that $f_1(n_1)=x$. Then, $2n_1$ is even. So, $x\in \mathrm{range}(g)$.\\
+    If $x\in B$, there is some $n_2\in\bb{N} $ such that $f_2(n_2)=x$. Then, $2n_2+1$ is odd. So, $x\in\mathrm{range}(g)$.\\
+    By proposition 8.6.6, $A\cup B$ is countable.
+
+\end{proof}
+\leftline{\textbf{Exercise:} Prove the above by considering injections}
+
+\begin{remark}
+    By induction, the finite union of countable sets is countable. To prove that the countable union
+    of countable sets is countable, we need the axiom of choice. 
+\end{remark}
+
+\hspace{5mm}
+
+\subsection{Size of $\mathrm{Maps}([n], X)$} 
+For each set $X$ and each $n\in \bb{N}$, how many sequences of length $n$ are there with values in 
+$X$.  Equivalently, what is the size of  $\mathrm{Maps}([n], X)$?
+
+\begin{example}
+    $\mathrm{Maps}([1], X)\approx X$. $\mathrm{Maps}([2], X)\approx X\times X$ ($f\mapsto (f(0), f(1))$ is a bijection). 
+\end{example}
+
+\vspace{2mm}
+
+\begin{lemma}
+    For all sets $A, B, X, Y$, if $A\approx X$ and $B\approx Y$, then $A\times B\approx X\times Y$.
+\end{lemma}
+
+\begin{proof}
+    Fix bijections $\fun{f}{A}{X}$ and $\fun{g}{B}{Y}$. Consider $(a,b)\mapsto (f(a), g(b))$.
+    One can check that this is a bijection.
+\end{proof}
+
+\vspace{2mm}
+
+\begin{lemma}
+    $\bb{N}\approx \bb{N}\times \bb{N}$.
+\end{lemma}
+\begin{proof}
+    Define $\fun{f}{\bb{N}\times \bb{N}}{\bb{N}}$ by $f(a,b)=\frac{1}{2}(a+b)(a+b+1)+b$.
+   One can check that $f$ is a bijection. (See Cantor's paring function).
+\end{proof}
+\vspace{2mm}
+
+\begin{proposition}
+    If $X$ is countably infinite, so is $X \times X$. If $X$ and $Y$ are countably infinite,
+    then so is $X\times Y$.
+\end{proposition}
+
+\begin{proof}
+    By Lemma 8.7.1 and 8.7.2,  $X\approx \bb{N}\approx \bb{N}\times \bb{N}\approx X\times X$ and 
+    $X\times Y\approx \bb{N}\times \bb{N}\approx \bb{N} $
+\end{proof}
+
+\leftline{\textbf{Exercise:} Disprove: For all sets $A, B, X, Y$, if $A\approx X$ and $B\approx Y$, then $A\cup B\approx X\cup Y$}
+\begin{proof}
+    A counterexample is $A=\{0,1\}$, $X=\{2,3\}$, $B=\{0\}$, $Y=\{4\}$.
+\end{proof}
+
+\vspace{2mm}
+
+\begin{proposition}
+    For all sets $X$ and all $n\in \bb{N}$, $\mathrm{Maps}([n+1], X)\approx \mathrm{Maps}([n], X)\times X$.\\
+    It follows that if $X$ is countably finite, then for each $n\in \bb{N}^+$, $\mathrm{Maps}([n], X)$ is countably finite.
+\end{proposition}
+
+\begin{proof}
+    Given $f\in \mathrm{Maps}([n+1], X) $, map it to $(f\restrict[n], f(n))\in \mathrm{Maps}([n], X)\times X$. 
+    This mapping is one-to-one because if $f\not= f'$, then either $f(n)\not=f'(n)$ or
+    $f\restrict [n]\not=f'\restrict [n]$. To show it is onto, take $(g, x)\in \mathrm{Maps}([n], X)\times X$.
+    Define $f(n)=x$ and $f(k)=g(k)$ for $k\in [n]$. One can check $f\in \mathrm{Maps}([n+1], X) $.\\
+    By induction, if $X$ is countably finite, then for each $n\in \bb{N}^+$, $\mathrm{Maps}([n], X)$ is countably finite.
+
+\end{proof}
+
+\begin{remark}
+    Note that the Cartesian product is not associative.
+\end{remark}
+\vspace{2mm}
+
+
+\begin{lemma}
+   If $A\approx B$, then $\mathrm{Maps}(A,X)\approx \mathrm{Maps}(B,X)$.
+\end{lemma}
+
+\begin{proof}
+    Fix a bijection $\fun{f}{B}{A}$. Given $g\in \mathrm{Maps}(A,X)$, map it to
+    $g\circ f \in\mathrm{Maps}(B,X)$. \\
+    To show this mapping is one-to-one, suppose $g\circ f=g'\circ f$. Then, $g(f(b))=g'(f(b))$ for all $b\in 
+    B$. Since $f$ is a surjection, we have $g(a)=g'(a)$ for all $a\in A$.\\
+    To show this mapping is onto, take $h\in \mathrm{Maps}(B,X)$. Then, $g\circ f^{-1}\in \mathrm{Maps}(A,X)$
+     and $h\circ f^{-1}\circ f=h$.
+
+\end{proof}
+
+\vspace{2mm}
+
+\begin{proposition}
+    If $A$ is nonempty and finite, $X$ is countably infinite, then $\mathrm{Maps}(A, X)$ is countably infinite as well.
+\end{proposition}
+
+\begin{proof}
+    Fix $n\in\bb{N}$ such that $A\approx [n]$. By Lemma $8.7.5$, $\mathrm{Maps}([n], X)\approx \mathrm{Maps}(A, X)$.
+    By proposition 8.7.4, $\mathrm{Maps}([n], X)$ is countably infinite, so $\mathrm{Maps}(A, X)$ is countably infinite as well.
+\end{proof}
+
+\vspace{2mm}
+
+
+\begin{proposition}
+    If $X$ is countably infitnite, then $\mathrm{Maps}(X, [2])$ is uncountable. It follows that if $X$ and $Y$ are countably infinite, then $\mathrm{Maps}(X, Y)$ is uncountable.
+\end{proposition}
+
+\begin{proof}
+    First, we will construct a bijection $f$ between $\mathcal{P}(X)$ and $\mathrm{Maps}(X, [2])$ as follows:
+    given $A\in \mathcal{P}(X)$, map it to $g\in\mathrm{Maps}(X, [2])$ such that 
+    \begin{equation*}
+        g(x)=\begin{cases}
+            1 &\text{ if } x\in A\\
+            0 &\text{ if } x\not\in A
+        \end{cases}
+    \end{equation*}
+    This is clearly well defined. To prove it is one-to-one, suppose $f(A)=f(A')=g$.
+    For each $x\in X$, $x\in A$ and $x\in A'$ iff $g(x)=1$; $x\not\in A$ and $x\not\in A'$ iff $g(x)=0$.
+    Thus, $A=A'$.\\
+    To prove it is onto, fix $g\in\mathrm{Maps}(X, [2])$. Define $A=\{x\in X\colon g(x)=1\}\subseteq X$.
+    One can check $f(A)=g$.\\ Thus, we have $\mathrm{Maps}(X, [2])\approx \mathcal{P}(X)$. \\
+    Second, we shall prove there is no surjection from $X$ to $\mathcal{P}(X)$. Suppose towards
+    a contradiction that we have a surjection from $X$ to $\mathrm{Maps}(X, [2])$. Then, by composing this
+    surjection with the bijection $\fun{f}{\mathrm{Maps}(X, [2])}{ \mathcal{P}(X)}$, we have a surjection from
+    $X$ to $\mathcal{P}(X)$, contradicting the proof of Cantor's Theorem.
+\end{proof}
+
+\vspace{2mm}
+
+\begin{notation}
+    Let $X$ be a \textbf{nonempty and countable} set. $X^{<\bb{N}}$ denote the set of all finite sequences
+    with values in $X$, i.e., $X^{<\bb{N}}=\bigcup_{n\in\bb{N}}\mathrm{Maps}([n], X)$
+\end{notation}
+
+\vspace{2mm}
+
+\begin{proposition}
+    $\bb{N}^{<\bb{N}}$ is countably infinite.
+\end{proposition}
+
+\begin{proof}
+    Since the set $P$ of primes is an unbounded subset of $\bb{N}$, by proposition 8.5.3, it is an infinite subset of $\bb{N}$. Thus, 
+    we have $P\approx \bb{N}$.
+    Fix a bijection $\fun{f}{\bb{N}}{P}$. Define a function from $\bb{N}^{<\bb{N}}$ to $\bb{N}$ by
+    \begin{equation*}
+        (a_0, a_1, a_2,..., a_n)\mapsto f(0)^{a_0+1}f(1)^{a_1+1}\cdot\cdot\cdot f(n)^{a_n+1}
+    \end{equation*}
+    This is injective because by FTA, the exponent on each prime number in the prime factorisation is unique. So by proposition 8.6.3, $\bb{N}^{<\bb{N}}$ is countable. \\
+    To prove  $\bb{N}^{<\bb{N}}$ is infinite, observe that there is an injection from $\bb{N}$ to $\bb{N}^{<\bb{N}}$.
+    (map each $n\in\bb{N}$ to the sequence {n} of length 1.). By proposition 8.5.4, $\bb{N}^{<\bb{N}}$ is infinite.
+\end{proof}
+\begin{remark}\hfill
+    \begin{enumerate}
+        \item  Intuitively, the function $f$ indexes every prime (in an ascending order).
+        \item  We added 1 on each exponent to ensure that the function is one-to-one. For example,
+        if we do not add 1, then (1) and (1, 0) are both mapped to 2.
+        \item  Note that the function we defined is not onto. (e.g. Intuitively, 10 is not in the range).
+        \item Alternatively, one can prove $\bb{N}^{<\bb{N}}$ is countably infinite by adapting the proof for 
+        proposition 8.6.3. (But this is certainly more troublesom than just constructing another 
+        injection from $N$ to $\bb{N}^{<\bb{N}}$).
+    \end{enumerate}
+\end{remark}
+
+\vspace{2mm}
+
+\begin{proposition}
+    $X^{<\bb{N}}$ is countably infinite.
+\end{proposition}
+
+\begin{proof}
+    Since $X$ is countably and nonempty, fix a surjection $\fun{g}{\bb{N}}{X}$. Define 
+    $\fun{h}{\bb{N}^{<\bb{N}}}{X^{<\bb{N}}}$ by
+    \begin{equation*}
+        (a_0, a_1, a_2,..., a_n)\mapsto (g(a_0), g(a_1),..., g(a_n))
+    \end{equation*}
+    $h$ is well-defined and onto because $g$ is well defined and onto. \\
+    Since $\bb{N}^{<\bb{N}}$ is countably infinite, fix a bijection $f$ from $\bb{N}$
+    to $\bb{N}^{<\bb{N}}$. Then, $h\circ f$ is a surjection from $\bb{N}$ to $X^{\bb{N}}$.
+    By proposition 8.6.6,  $X^{\bb{N}}$ is countable.\\
+    To prove  $X^{\bb{N}}$ is infinite, notice that there is an injection from $\bb{N}$ to $X^{\bb{N}}$.
+    (Fix $x_0\in X$. Map each $n\in\bb{N}$ to the constant sequence $x_0$ with length $n$.)
+\end{proof}
+
+\vspace{5mm}
+
+\subsection{Axiom of Choice}
+
+\begin{axiom}
+For every set $X$ with $\emptyset\not\in X$, there is a choice function $\fun{F}{X}{\bigcup X}$ such that
+for all $S\in X$, we have $F(S)\in S$
+\end{axiom}
+
+\begin{remark}\hfill
+    \begin{enumerate}
+        \item Intuitively, $f$ is looking into every element $S$ of $X$ and then choose an element of $S$ for us.
+        \item For finite X, Choice is provable in ZF. (By induction on n. Base case: $X=\{S\}$. since 
+        $S$ is nonempty, there exists $x\in S$. Define $f(S)=x$.)
+        \item For $X$ such that every $S\in X$ is a singleton, Choice is provable in ZF. (If S is finite, then Choice is not provable in ZF.)
+        \item For $X\subseteq \mathcal{P}(\bb{N})$, Choice is provable in ZF. (Since each $S\in X$ is a nonempty subset of $\bb{N}$, we can use well-ordering to choose the minimum element of each $S$.)
+        \item One should be concerned with the issue of Choice when there are
+        \textbf{infinitely many} sets and we wnat to choose an element from each of them.
+    \end{enumerate}
+\end{remark}
+
+\vspace{4mm}
+
+\begin{proposition}
+    A countable union of countable sets is countable.
+\end{proposition}
+\begin{proof}
+    Suppose $(A_i)_{i\in \bb{N}}$ is a sequence of countable sets. WLOG, 
+    assume each $A_i$ is nonempty. Consider the set 
+    \begin{equation*}
+        X=\{\{g\in\mathrm{Maps}(\bb{N}, A_i)\colon g \text{ is onto}\}\colon i\in\bb{N}\}
+    \end{equation*}
+    Since each $A_i$ is nonempty and countable, 
+    $\{g\in\mathrm{Maps}(\bb{N}, A_i)\colon g \text{ is onto}\}\not= \emptyset$ (by proposition 8.6.6).
+    So $\emptyset\not\in X$. By Choice, there is a function $\fun{F}{X}{\bigcup X}$
+    such that for each $i\in \bb{N}$, we have
+    \begin{equation*}
+        F(\{g\in\mathrm{Maps}(\bb{N}, A_i)\colon g \text{ is onto}\})\in \{g\in\mathrm{Maps}(\bb{N}, A_i)\colon g \text{ is onto}\}
+    \end{equation*}
+    Let $ F(\{g\in\mathrm{Maps}(\bb{N}, A_i)\colon g \text{ is onto}\})=g_i $.
+    Define $\fun{G}{\bb{N}\times\bb{N}}{\bigcup_{i\in\bb{N}}A_i}$ by
+    \begin{equation*}
+        G(i,n)=g_i(n)
+    \end{equation*}
+    $G$ is well defined because each $g_i$ is well defined. To prove $G$ is onto,
+    fix any $a\in \bigcup_{i\in\bb{N}}A_i$. Then, there exists $i\in \bb{N}$ such that 
+    $a\in A_i$. Since $g_i$ is onto, there exists $n\in\bb{N}$ such that $g_i(n)=a$. Thus,
+    there is $(i,n)\in\bb{N}\times\bb{N} $ such that $G(i,n)=a$.\\
+    By composing a bijection from $\bb{N}$ to $\bb{N}\times\bb{N}$ with $G$, we obtain a surjection from 
+    $\bb{N}$ to $\bigcup_{i\in\bb{N}}A_i$, proving that $\bigcup_{i\in\bb{N}}A_i$ is countable.
+\end{proof}
+
+\vspace{5mm}
+
+\subsection{Cantor-Schroder-Bernstein}
+
+\begin{notation}
+If there is an injection from $A$ to $B$, we write $A\preceq B$. If there is an injection from $A$ to $B$
+but $A\not\approx B$, we write $A\prec B$.
+\end{notation}
+\leftline{If $A\approx B$, then $A\prec B$ and $B\prec A$.}
+
+
+\vspace{2mm}
+
+\begin{proposition}
+    If $A$ and $B$ are countable sets and $A\preceq B$ and $B\preceq A$, then $A\approx B$.
+\end{proposition}
+\begin{proof}
+    We consider two cases.\\
+    If $A$ and $B$ are both countably infinite, then $A\approx\bb{N}\approx B$ and we are done. \\
+    Otherwise, WLOG, suppose $A$ is finite. Fix injections $\fun{f}{A}{B}$
+    and $\fun{g}{B}{A}$. Then the composition $g\circ f\colon A\rightarrow A$ 
+    is an injection. Since $A$ is finite, by the Pigeonhole Principle, $g\circ f$
+    is onto. This means that for each $a\in A$, there is some $a'\in A$ such that
+    $g(f(a'))=a$, i.e., there is some $b=f(a')\in B$ such that $g(b)=a$. So $g$ is onto.
+    Thus, $B\approx A$ as witnessed by the bijection $g$.
+\end{proof}
+\leftline{\textbf{Exercise}: Prove that if $A$ is finite and $B\preceq A$, then $B$ is finite. }
+\begin{proof}
+     Fix an injection $\fun{f}{B}{A}$. Then $f[B]\subseteq A$. So $f[B]$ is finite.
+     So $B$ is finite as witnessed by the bijection $f\restrict B\colon B\rightarrow f[B]$.
+
+\end{proof}
+
+\vspace{2mm}
+
+\begin{theorem}
+(\textit{Cantor-Schroder-Bernstein}) For all sets $A$ and $B$, if $A\preceq B$ and $B\preceq A$, then $A\approx B$.
+\end{theorem}
+\begin{discussion}
+We fix injections $\fun{f}{A}{B}$ and $\fun{g}{B}{A}$. If $f$ is onto, then we are done.\\
+Otherwise, the set $B-\mathrm{range}(f)$ is nonempty. We wish to obtain a new injection
+$\fun{h}{A}{B}$ which includes  $B-\mathrm{range}(f)$ in its range.\\
+For each $b\in B-\mathrm{range}(f) $, let $h(g(b))=b$. Now, each $b\in B-\mathrm{range}(f)$
+is in the range of $h$.\\
+One may attempt to define $h$ by 
+\begin{equation*}
+    h(a)=\begin{cases}
+        g^{-1}(a) & \text{ if }a\in g[B-\mathrm{range}(f)]\\
+        f(a)    &  \text{ otherwise}
+    \end{cases}
+\end{equation*}
+However, we notice that the sets $f[g[B-\mathrm{range}(f)]]$ and 
+$f[A-g[B-\mathrm{range}(f)]]$ are disjoint since $f$ is injective.
+Also notice that $\mathrm{range}(h)=(B-\mathrm{range}(f))\cup f[A-g[B-\mathrm{range}(f)]]$.
+Therefore, for each $b\in B-\mathrm{range}(f)$, $f(g(b))$  is not in
+$\mathrm{range}(h)$.)\\
+No matter, we define $h(g(f(g(b))))=f(g(b))$ for each $b\in B-\mathrm{range}(f)$. 
+Now, $f(g(b))$ is in $\mathrm{range}(h)$.\\
+Repeat this for infinitely many times, $\mathrm{range}(h)$ will eventually cover 
+the set $B$.
+\end{discussion} 
+
+\begin{proof}
+    Fix injections $\fun{f}{A}{B}$ and $\fun{g}{B}{A}$. Define a sequence $(C_n)_{n\in\bb{N}}$
+    of subsets of $A$ by recursion:
+    \begin{equation*}
+        C_0=g[B-\mathrm{range}(f)], \quad C_{n+1}=g[f[C_n]] \quad\text{for } n\in\bb{N}
+    \end{equation*}
+    Define $\fun{h}{A}{B}$ by 
+    \begin{equation*}
+        h(a)=\begin{cases}
+            g^{-1}(a) & \text{ if }a\in C_n \text{ for some }n\\
+            f(a)    &  \text{ otherwise}
+        \end{cases}
+    \end{equation*}
+    (Here, $h(a)=g^{-1}(a)$ means that for each $b\in C_{n-1}$,
+    $h(g(b))=b$. In other words, $g^{-1}(a)$ denotes the preimage of $a$ under $g$.)\\
+    Nottice that for all $n$, $C_n\subseteq \mathrm{range}(g)$, and $g$ is one-to-one. 
+    Thus, each $a\in C_n$ has a unique preimage under $g$. So $h$ is well defined.\\\\
+    To prove $h$ is one-to-one, suppose $h(a)=h(a')$. Consider the following cases:\\
+    \textbf{\underline{Case 1}}: If $a, a'\not\in \bigcup_{n\in\bb{N}} C_n$, then we are done
+    (because $f$ is one-to-one.)\\
+    \textbf{\underline{Case 2}}: If $a\in \bigcup_{n\in\bb{N}} C_n$ and $a'\not\in \bigcup_{n\in\bb{N}} C_n$.
+    Then, we have $h(a)=g^{-1}(a)=h(a')=f(a')$. So $a=g(f(a'))$.\\
+    \underline{Case 2a}: If $a\in C_0$, then $g(f(a'))\in C_0=g[B-\mathrm{range}(f)]$.
+    Since $g$ is one-to-
+    one, we have $f(a')\in B-\mathrm{range}(f) $, a contradiction.\\
+    \underline{Case 2b}: If $a\in C_{n+1}$, then $g(f(a'))\in C_{n+1}=g[f[C_n]]$.
+    Since $g$ is one-to-one, we have $f(a')\in f[C_n]$. Since $f$ is one-to-one, we have 
+    $a'\in C_n$, contradicting the assumption.\\
+    Therefore, in case 2, it is impossible to have $h(a)=h(a')$.\\
+    \textbf{\underline{Case 3}}: If $a, a'\in \bigcup_{n\in\bb{N}} C_n$, then $g^{-1}(a)=
+    g^{-1}(a')$. Since $g$ is well defined, we have $a=a'$.\\\\
+    To prove $h$ is onto, we first note that $\mathrm{range}(h)=
+    g^{-1}[\bigcup_{n\in\bb{N}} C_n]\bigcup f[A-\bigcup_{n\in\bb{N}} C_n]$. Clearly,
+    $\mathrm{range}(h)\subseteq B$. We shall prove $B\subseteq \mathrm{range}(h)$.
+    Fix $b\in B$, we consider two cases:\\
+    \textit{\underline{Case 1}}: If $g(b)\in \bigcup_{n\in\bb{N}}C_n$, then 
+    $b\in  g^{-1}[\bigcup_{n\in\bb{N}} C_n]\subseteq \mathrm{range}(h)$.\\
+    \textit{\underline{Case 2}}: If $g(b)\not\in \bigcup_{n\in\bb{N}}C_n$, then 
+    $g(b)\in A-\bigcup_{n\in\bb{N}} C_n$ and $b\not\in g^{-1}[\bigcup_{n\in\bb{N}} C_n]$.
+    We want to prove $b\in f[A-\bigcup_{n\in\bb{N}} C_n]$, and it suffices to prove that 
+    $f^{-1}(b)\not\in C_n$ for all $n$. \\
+    Fix any $k\in\bb{N}$. Observe that $g(b)\not\in C_n$ for all $n\in\bb{N}$, and in particular, 
+    $g(b)\not\in C_{k+1}=g[f[C_k]]$. Since $g$ is injective,
+    $b\not\in f[C_k]$. Since $f$ is injective,
+    it follows that $f^{-1}(b)\not\in C_k$.
+
+
+    
+    
+
+\end{proof}
+
+
+\begin{remark}
+    In order to show $A\approx B$, it suffices to show that $A\preceq B$ and $B\preceq A$.
+\end{remark}
+
+\vspace{2mm}
+
+\begin{coro}
+If $A\approx C$ and $A\subseteq B\subseteq C$, then $A\approx B\approx C$.
+\end{coro}
+
+\begin{proof}
+    Since $A\subseteq B $, $A\preceq B$ as witnessed by the inclusion function.
+    Since $A\approx C$ and $B\subseteq C$, we can fix a bijection $\fun{f}{C}{A}$
+    and injection $\fun{\iota}{B}{C}$. Then $f\circ \iota\colon B\rightarrow A$ is an injection.
+    Thus, $B\preceq A$. By  Cantor-Schroder-Bernstein, $A\approx B$. Thus, $C\approx A\approx B$
+\end{proof}
+
+\vspace{5mm}
+
+\subsection{Zorn's Lemma , Ideals and Comparability}
+Given any sets $A$ and $B$, is it true that either $A\preceq B$ or $B\preceq A$? By previous results,
+this is true for countable sets.
+
+
+
+
+
+
+\vspace{2mm}
+
+\begin{definition}
+    (\textit{Chain}) A set $\mathcal{C}$ is a chain if for every $X, Y\in \mathcal{C}$, either $X\subseteq Y$
+    or $Y\subseteq X$.
+\end{definition}
+
+\vspace{2mm}
+
+\begin{lemma}
+    (\textit{Zorn's Lemma}) (\textcolor{red}{Assuming Choice}) Suppose $\mathcal{S}$ is a set such that
+    for every chain $\mathcal{C}\subseteq \mathcal{S}$, we have $\bigcup \mathcal{C}\in S$. Then, 
+    there is some $M\in S$ which is maximal, i.e.,  for every $X\in \mathcal{S}$, $M$ is 
+    not a proper subset of $X$. 
+\end{lemma}
+
+\begin{remark} \hfill
+    \begin{enumerate}
+        \item  Assuming ZF, Zorn's Lemma is equivalent to Choice. The proof of Zorn's Lemma
+        from Choice is out of the scope of this course.
+        \item  Note that ZL does not assert that for every $X\in \mathcal{S}$, 
+        $X\subseteq M$. $X\subseteq M$ means that $\forall x(x\in X\to x\in M)$. 
+        $M$ is not a proper subset of $X$ means that $(\exists m(m\in M\wedge m\not\in X))
+        \vee (\forall x(x\in X\to x\in M))$. Certainly,  $X\subseteq M$ implies 
+        $M$ is not a proper subset of $X$, but the converse is not true.
+        \item  Note that the empty set is a chain, and is also a subset of any set.
+        If $\mathcal{S}$ satisfies the assumptions of ZL, then we have $\bigcup \emptyset
+        =\emptyset \in \mathcal{S}$. Whenever we want to apply ZL to $\mathcal{S}$, we will
+        not check $\emptyset \in \mathcal{ S}$. This is immaterial since $\emptyset $ is 
+        never maximal unless $S=\{\emptyset\}$.
+        \item In general, this works for any partial order. (we can define maximal element
+        in any partial order.) A partial order is a relation that is reflexive,
+        anti-symmetric (if $a\leq b$ and $b\leq a$, then $a=b$.) and transitive. In partial 
+        order, we don't require any two elements to be comparable.
+        \item  We can think of chains as sets that are closed under (binary )union, i.e., 
+        given $X, Y\in \mathcal{C}$, $X\cup Y\in \mathcal{C}$.
+        \item  It is \textbf{false} that for finite $\mathcal{S}$, if $M$ is maximal, then
+        $M$ has the max cardinality.\\ 
+        One counterexample is $\mathcal{S}=\{\emptyset, \{1\}, \{0\}, \{1,2\}\}$. $\{0\}$ and 
+        $\{1,2\}$ are both maximal, but $\{0\}$ does not have max cardinality.\\
+        It is also \textbf{false} that if $M$ has maximal cardinality, then it is maximal. 
+        For example, consider $\mathcal{P}(\bb{N})$.  $\bb{N}-\{0\}\in 
+        \mathcal{P}(\bb{N})$ has the max cardinality,  but $\bb{N}-\{0\}$ is not maximal.
+        \item In general, it is false that the maximal element is the unary union of some 
+        $\mathcal{C}\subseteq \mathcal{S}$.
+    \end{enumerate}
+\end{remark}
+
+\begin{example}\hfill
+    \begin{enumerate}
+        \item If $\mathcal{S}=\mathcal{P}(X)$ for some set $X$, then it satisfies ZL.
+        We can take $M$ to be $X$.
+        \item Fix sets $A$ and $B$. Let $\mathcal{S}$ be the set of graphs of injections $f$ 
+        such that $\mathrm{dom}(f)\subseteq A$ and $\mathrm{range}(f)\subseteq B$. Set 
+        theoretically,
+        \begin{equation*}
+            \mathcal{S}=\{f\in \mathcal{P}(A\times B)\colon ((a,b), (a,b')\in f\to b=b')
+            \wedge ((a,b),(a',b)\in f\to a=a')\}
+        \end{equation*}
+        where 
+        \begin{equation*}
+            f=\{(a, f(a))\colon a\in A\}=\{(a,b)\in A\times B\colon b=f(a)\}
+        \end{equation*}
+        $\mathcal{ S}$ satisfies the assumptions of ZL. Intuitively, the maximal element of
+        $\mathcal{S}$ is our best attempt to construct an injection from $A$ to $B$. In this 
+        case, the maximal element is not unique.
+        \item If  $\mathcal{S}$ is the set of all finite subsets of $\bb{N}$, it does 
+        \textbf{not} satisfy the assumptions of ZL: Consider the chain $\mathcal{C}=
+        \{[n]\colon n\in \bb{N}\}\subset\mathcal{S}$. We have $\bigcup \mathcal{C}
+        =\bb{N}\not\in \mathcal{ S}$. 
+    \end{enumerate}
+    
+\end{example}
+
+\vspace{2mm}
+
+\begin{definition}
+    (\textit{Ideal}) In a ring $R$, an ideal $I$ is a nonempty subset of $R$ such that:
+    \begin{enumerate}
+        \item if $a,b\in I$, then $a+b\in I$.
+        \item if $r\in R$ and $a\in I$, then $r\cdot a\in I$.
+    \end{enumerate}
+    Trivially, $R$ is an ideal itself. Other ideals are said to be proper.
+\end{definition}
+
+\vspace{2mm}
+
+\begin{proposition}
+    (\textcolor{red}{Assuming Choice}) In every ring $R$, there is a proper ideal $M$ 
+    which is maximal, i.e., there is no proper ideal $I$ such that $M\subsetneq I$.
+\end{proposition}
+
+\begin{proof}
+   Let $\mathcal{S}$ be the set of all proper ideals in $R$. By ZL, it suffices to prove that 
+   $\mathcal{S}$ satisfies the assumptions of ZL.\\
+   Fix any chain $\mathcal{C}\subseteq \mathcal{S}$. We claim that $\bigcup \mathcal{C}
+   \in \mathcal{ S}$, i.e., $\bigcup \mathcal{C}$ is a proper ideal.\\
+   To prove $\bigcup \mathcal{C}$ is proper ($\bigcup \mathcal{C}\not=R$), it suffices to 
+   show that $1\not\in \bigcup \mathcal{C}$. Suppose towards a contradiction that $1\in
+   \bigcup \mathcal{C}$, then $1$ lies in some $I\in\mathcal{C}$. By the definition of 
+   ideal, this means that for each $r\in R$, we have $1\cdot r=r\in I$. So $I=R$, 
+   contradicting the fact that $I$ is a proper ideal.\\
+   To prove that $\bigcup \mathcal{C}$ is an ideal, suppose $a,b\in \bigcup \mathcal{C}$.
+   Fix $I,J\in \mathcal{ C}$ such that $a\in I$ and $b\in J$. WLOG, suppose $J\subseteq I$.
+   So we have $a,b\in I$. Since $I$ is an ideal, we have $a+b\in I$, implying $a+b\in
+   \bigcup \mathcal{C}$. Similarly, for each $r\in R$, we have $r\cdot a\in I$, implying
+    $I\in \mathcal{C}$. ($a+b$ and $r\cdot a$ are elements of element of $\mathcal{C}$).
+
+\end{proof}
+
+\begin{example}
+    In $\bb{Z}$, a proper ideal is maximal if and only if it is the set of multiples of some 
+    prime. For example, the set of even integers is a maximal ideal, but the set of multiples
+    of 6 is not maximal as it is strictly contained in the set of even integers.
+\end{example}
+
+
+\vspace{2mm}
+
+\begin{theorem}
+    (\textit{Comparability}) (\textcolor{red}{Assuming Choice}) 
+    For all sets $A$ and $B$, either $A\preceq B$ or $B\preceq A$.
+\end{theorem}
+
+\begin{proof}
+    If $A\preceq B$, then we are done.  Now, assume $A\not\preceq B$, we shall prove 
+    that $B\preceq A$.\\
+    Let $\mathcal{S}$ be the set of graphs of injections $f$ 
+    such that $\mathrm{dom}(f)\subseteq A$ and $\mathrm{range}(f)\subseteq B$. Set 
+    theoretically,
+    \begin{equation*}
+        \mathcal{S}=\{f\in \mathcal{P}(A\times B)\colon ((a,b), (a,b')\in f\to b=b')
+        \wedge ((a,b),(a',b)\in f\to a=a')\}
+    \end{equation*}
+    Fix any chain $\mathcal{C}\subseteq \mathcal{S}$. We shall prove that $\bigcup 
+    \mathcal{C}\in \mathcal{S}$.\\
+    First, notice that every element of $\mathcal{C}$ is a subset of $A\times B$. So
+    every element of element of $\mathcal{C}$ is an element of $A\times B$. Thus, 
+    $\bigcup \mathcal{C} \subseteq A\times B$.\\
+    We claim that $\bigcup \mathcal{C}$ is a function. Fix $(a,b), (a,b')\in\bigcup \mathcal{C}$,
+    we shall prove $b=b'$. Fix $f, f'\in  \mathcal{C}$ such that $(a,b)\in f$ and 
+    $(a,b')\in f'$. Since $\bigcup \mathcal{C}$ is a chain, WLOG, suppose $f'\subseteq f$.
+    So $(a,b), (a,b')\in f$. We know that $f$ is a function, so we must have $b=b'$.\\
+    The proof that $\bigcup \mathcal{C}$ is injective is analogous to the proof for that 
+    $\bigcup \mathcal{C}$ is well defined.\\
+    By ZL, fix $g\in \mathcal{S}$ such that $g$ is maximal. Since $A\not\preceq B$, 
+     $\mathrm{dom}(g)$ must be a proper subset of $A$. Now we claim that $\mathrm{range}(g)
+     =B$. If not, pick any $b\in B-\mathrm{range} (g)$ and any $a\in A-\mathrm{dom}(g)$. 
+     Then, we can extend $g$ into a injection by mapping $a$ to $b$, contradicting the 
+     maximality of $g$ ( because $g\subsetneq g\cup \{(a,b)\}$).\\
+     It follows that $g$ is a bijection from $\mathrm{dom}(g)$ to $B$. Therefore, 
+     $\fun{g^{-1}}{B}{\mathrm{dom}(g)}$ is a witness that $B\preceq A$.
+
+\end{proof}
+
+\begin{discussion}
+    The proof uses the maximality of $g$ in a crucial way. Intuitively, imagine we are 
+    constructing an injection from $A$ to $B$, but get stuck somewhere because we have used
+    up all elements of $B$. Now, this $g$ we get is maximal, and by taking its inverse, we
+    have a injection from $B$ to $A$. 
+\end{discussion}
+
+
+\vspace{2mm}
+
+\hypertarget{Corollary 8.10.6}{\begin{coro}
+    A set $A$ is infinite if and only if $N\preceq A$. (The forward direction \textcolor{red}{assumes Choice})
+\end{coro}}
+\begin{proof}
+    ($\Rightarrow$) By Comparability, either $N\preceq A$ (in which case we are done)
+    or $A \preceq \bb{N}$. If $A \preceq \bb{N}$, fix an injection $\fun{f}{A}{\bb{N}}$.
+    Since $\mathrm{range}(f)\subseteq \bb{N}$ and $\mathrm{range}(f)$ is infinite, by 
+    proposition \hyperlink{Corollary 8.6.5}{corollary 8.6.5}, $\mathrm{range}(f)\approx \bb{N}$.
+    Notice that since $f$ is injective, $A\approx \mathrm{range}(f)$.
+    Thus, $A\approx \bb{N}$, and in particular, $N\preceq A$.\\
+    ($\Leftarrow$) This is true by \hyperlink{proposition 8.5.4}{proposition 8.5.4}
+\end{proof}
+
+
+\begin{remark}
+    An interpretation of this result is that $\bb{N}$ is the smallest infinite set.
+\end{remark}
+
+\vspace{2mm}
+
+\begin{definition}
+    (\textit{Dedekind Infinite}) A set is Dedekind infinite if it is equinumerous to a proper subset of itself.
+\end{definition}
+
+\vspace{2mm}
+
+\hypertarget{proposition 8.10.8}{\begin{proposition}
+    A set $X$ is Dedekind infinite if and only if it is infinite. (The backward direction 
+    \textcolor{red}{assumes Choice})
+\end{proposition}}
+\begin{proof}
+    ($\Rightarrow$) This is a direct consequence of \hyperlink{proposition 8.3.3}{proposition 8.3.3}.\\
+    ($\Leftarrow$) By proposition 8.10.6, we can fix an injection $\fun{f}{\bb{N}}{A}$.
+    Define a function $\fun{g}{A}{A-\{f(0)\}}$ by 
+    \begin{equation*}
+        g(a)=\begin{cases}
+            a & \text{ if } a\not\in \mathrm{range}(f)\\
+            f(n+1)&\text{ if } a=f(n)
+        \end{cases}
+    \end{equation*}
+    $g$ is well defined because $f$ is well defined and \textbf{one-to-one}.\\
+    To prove $g$ is one-to-one, suppose $g(a)=g(a')$. If $a,a'\not\in \mathrm{range}(f)-\{f(0)\}$,
+    then we have $a=a'$. If $a, a'\in \mathrm{range}(f)-\{f(0)\}$, fix $n,n'$ such that 
+    $a=f(n)$ and $a'=f(n')$.  Then $g(a)=g(a')$ implies $f(n+1)=f(n'+1)$. Since $f$ is one-to-one, 
+    we have $n=n'$. Thus, $a=f(n)=f(n')=a'$. If $a\in\mathrm{range}(f)$ and 
+    $a'\not\in \mathrm{range}(f)-\{f(0)\}$, then $g(a)\in \mathrm{range}(f)-\{f(0)\}$ and 
+    $g(a')\not\in \mathrm{range}(f)-\{f(0)\})$. So we cannot have $g(a)=g(a')$.\\
+    To prove $g$ is onto, fix any $a\in A-\{f(0)\}$. If $a\not\in \mathrm{range}(f)$, then 
+    $g(a)=a$. If $a\in\mathrm{range}(f)-\{f(0)\}$, there is a unique $n\in\bb{N}^+$ 
+    such that $f(n)=a$ (since $f$ is one-to-one). Let $a'=f(n-1)$. By definition, 
+    $g(a')=f(n)=a$. 
+
+\end{proof}
+
+\begin{exercise}
+Prove that  $[0,1]\approx(0,1)$.
+\end{exercise}
+\begin{proof}
+    Define $\fun{f}{[0,1]}{(0,1)}$ by
+    \begin{equation*}
+        f(x)=\begin{cases}
+            \frac{1}{2} & \text{ if } x=0\\
+            \frac{1}{4}x & \text{ if } x\in\{\frac{1}{2^n}\colon n\in\bb{N}\}\\
+            x & \text{ otherwise }
+        \end{cases}
+    \end{equation*}
+   One can check this is a bijection.
+\end{proof}
+
+\begin{discussion}
+    The proof for proposition 8.10.8 and the proof in the exercise use the same idea:
+    we take an infinite sequence and shift every term of the sequence by one (or two).
+    In the exercise, we shift $\frac{1}{2^n}$ to $\frac{1}{2^{n+2}}$. In the proposition,
+    since the injection $f$ gives us an infinite sequence in $A$, we shift $f(n)$ to 
+    $f(n+1)$.
+
+\end{discussion}
+
+
+\begin{remark}
+    Assuming Choice, this gives us an equivalent way to define infinite sets.
+\end{remark}
+
+\newpage
+
+\section{Chapter 9 The Real Numbers}
+
+\subsection {Construction of $\bb{R}$ via Dedekind Cuts}
+\begin{definition}
+   (\textit{Dedekind cut}) A Dedekind cut is a nonempty set $C\subsetneq \bb{Q}$ such that
+    \begin{enumerate}
+        \item for all $q\in C$, if $r\in \bb{Q}$ and $r<q$, then $r\in C$ as well
+        \item $C$ has no maximum, i.e., for all $q\in C$, there is some $q'\in C$ 
+        such that $q'>q$.
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}\hfill
+    \begin{enumerate}
+        \item One should take note of the difference between supremum and maximum. The maximum of 
+        a set $A$ must always be in $A$, whereas the supremum may not be an element of $A$.
+        \item  $C$ is countable because $\bb{Q}$ is countable. But the set of all Dedekind cuts
+        is uncountable and is equinumerous to $\mathcal{P}(\bb{Q})$.
+        \item  Notice that any set of Dedelind cuts forms a chain. (However, Zorn's Lemma is not 
+        useful in this case because for Dedekind cuts we have an ordering that satisfies trichotomy.
+        If we want the maximal Dedekind cut, that will be the union of all Dedekind cuts in the
+        chain, and we don't even need the conclusion of Zorn's Lemma.
+        Zonr's Lemma is more likely to be useful  when we have a set whose elements are not proper
+        subsets of each other and we want to choose a maximal one. )
+        \item  $C$ may have a supremum in $\bb{R}$. It may or may noy have a supremum
+        in  $\bb{Q}$. 
+    \end{enumerate}
+   
+\end{remark}
+\vspace{3mm}
+
+\begin{definition}
+    (\textit{$\bb{R}$}) The set of all real numbers, denoted by $\bb{R}$, 
+    is the set of all Dedekind cuts. (Notice that $\bb{R}\subseteq \mathcal{P}(\bb{Q})$)
+\end{definition}
+\begin{remark}
+    Intuitively, a real number $r$ is the set of all rational numbers strictly less that $r$.
+\end{remark}
+
+\vspace{3mm}
+
+\begin{definition}
+    (\textit{Ordering on $\bb{R}$}) For Dedekind cuts $C,D\in \bb{R}$,  $C<D$ if $C\subsetneq D$.
+\end{definition}
+
+\vspace{3mm}
+
+\begin{proposition}
+    The ordering on $\bb{R}$ satisfies trichotomy, i.e., for every two Dedekind cuts $C$ 
+    and $D$, exactly one of the following holds:
+    \begin{multicols}{3}
+        \begin{enumerate}
+            \item $C=D$
+            \item $C\subsetneq D$
+            \item $D\subsetneq C$
+        \end{enumerate}
+    \end{multicols}
+\end{proposition}
+
+\begin{proof}
+    If $C=D$, then it is clear that $C\subsetneq D$ and $D\subsetneq C$ do not hold. \\
+    Suppose that $C\not=D$. We shall prove exactly one of $C\subsetneq D$ and $D\subsetneq C$ holds.\\
+    Suppose towards a contradiction that none of the two holds, then there exists 
+    $q\in C$ such that $q\notin D$ and there exists $q'\in D$ such that $q'\notin C$. 
+    Since $q\not\in D$, we must have $q\geq q'$. Similarly, we must have $q'\geq q$. Thus,
+    $q=q'$, a contradiction.\\
+    It is not possible that both of $C\subsetneq D$ and $D\subsetneq C$ hold since if 
+    $C\subsetneq D$, then there exists $q\in C$ such that $q\notin D$, contradicting  
+    $D\subsetneq C$.
+\end{proof}
+
+\vspace{5mm}
+
+\subsection{Dedekind Completeness}
+\begin{definition}
+    $A\subseteq\bb{R}$ is bounded in $\bb{R}$ if there are $u,l\in \bb{R}$ such that for all 
+    $a\in A$, $l\leq a\leq u$. $\max(A)$ is defined to be the number $m\in A$ such that for all $a\in A$, $a\leq m$.
+ \end{definition}
+
+ \vspace{2mm}
+
+\begin{theorem}
+    (\textit{Dedekind Completeness}) Every nonempty (upper) bounded subset $A$ of $\bb{R}$
+    has a supremum $s\in\bb{R}$, i.e., 
+    \begin{enumerate}
+        \item for all $a\in A$, $a\leq s$ ($s$ is an upper bound of $A$.)
+        \item for all $r<s$, there is some $a\in A$ such that $a>r$. ($r$ is 
+        not an upper bound of $A$)
+    \end{enumerate}
+    Equivalently, the set $\{s\in\bb{R}\colon (\forall a\in A)(a\leq s)\}$ 
+    has a minimum element.
+\end{theorem}
+\begin{proof}
+    We claim that $\mathrm{sup}(A)=\bigcup A$. \\
+    First, we shall prove $\bigcup A\in\bb{R}$, i.e., $\bigcup A$ is a Dedekind cut.\\
+    $\bigcup A$ is nonempty because $A$ is nonempty and each element of $A$ is nonempty.\\
+    Since $A$ is bounded, there is some $D\in\bb{R}$ such that for each $C\in A$, 
+    we have $C\subseteq D\subsetneq \bb{Q}$. \\
+    Suppose $q\in\bigcup A$, $r\in\bb{Q}$ and $r<q$. Fix $C\in A$ such that $q\in C$. Since 
+    $C$ is a Dedekind cut, we have $r\in C$. So $r\in\bigcup A$.\\
+    Suppose $q\in\bigcup A$. Fix $C\in A$ such that $q\in C$. Since 
+    $C$ is a Dedekind cut, there is some $q'\in C$ such that $q'>q$. So we have $q'\in \bigcup A$
+     and $q'>q$.\\
+    Second, we shall prove $\bigcup A$ is the least upper bound of $A$.\\
+    By definition of union, for all $C\in A$, we have $C\subseteq \bigcup A$. So $\bigcup A$ is
+    an upper bound of $A$.\\
+    Suppose $C\subsetneq \bigcup A$. Fix $q\in \bigcup A-C$, and fix $D\in A$ such that 
+    $q\in D$. Since $q\in D-C$, $D$ is not a subset of $C$. By trichotomy, we have $C\subsetneq D$.
+    So $\bigcup A$ is the least upper bound of $A$.
+
+
+
+\end{proof}
+
+\begin{remark}\hfill
+    \begin{enumerate}
+        \item We denote the supremum of $A$ by $\mathrm{sup}(A)$. 
+        Every $A\subseteq \bb{R}$ has a unique supremum.
+        \item $\mathrm{sup}(A)$ does not have to be an element of $A$. For example, the 
+        open interval $(0,1)$ has supremum 1. Dedekind Completeness is powerful in the sense
+        that no matter how complicated the subset of $\bb{R}$ is (e.g. the interval $(0,1)$ with 
+        a lot of holes in it ), the existence of the supremum is guaranteed.
+        \item To prove $\mathrm{sup}(A)=s$, first one needs to check $s$ is an upper bound.
+        Then, one can take an arbitrary $r<s$ and produce an $a>r$. 
+    \end{enumerate}
+\end{remark}
+
+\vspace{2mm}
+
+\begin{proposition}
+    There is some positive $r\in \bb{R}$ such that $r^2=2$
+\end{proposition}
+\begin{proof}
+    Consider the set $A=\{x\in \bb{R}\colon x^2<2\}$. We claim that $r=\mathrm{sup}(A)$ and 
+    $r^2=2$. We wish to prove that if $r^2>2$, it is not the least upper bound. If $r^2<2$, 
+    then it is not an upper bound.
+\end{proof}
+
+\vspace{2mm}
+
+\begin{proposition}
+    $\bb{Q}$ is not Dedekind complete.
+\end{proposition}
+\begin{proof}
+    Consider the nonempty bounded set $S=\{q\in\bb{Q}\colon q^2<2\}$. We claim that if 
+    $r$ is the supremum of $S$ in $\bb{Q}$, then $r^2=2$. But there is not rational number 
+    whose square is 2, so $S$ has no supremum in $\bb{Q}$.
+\end{proof}
+
+\vspace{3mm}
+
+\subsection{The Archimedean Property}
+
+\begin{definition}
+    (\textit{The Archimedean Property}) In any ordered field $F$ with additive identity $0_{F}$
+    and multiplicative identity $1_{F}$, we call the set $\{0_{F}, 1_{F}, 1_{F}+_{F}1_{F},...\}$
+    the set of natural numbers in $F$. $F$ has the Archimedean property if the set of natural 
+    numbers in $F$ is unbounded in $F$.
+\end{definition}
+
+\vspace{2mm}
+
+\begin{proposition}
+    The failure of the Archimedean property is equivalent to the existence of some 
+    infinitesimal $x$, i.e., $x>0$ yet for all $n\in \bb{N^+}$, $x<\frac{1}{n}$.
+\end{proposition}
+
+\begin{proof}
+    The Archimedean property fails if and only if there is some $y>0$ 
+    such that  for all $n\in\bb{N}^+$,  we have $0<n<y$. For every $n\in\bb{N}^+$,
+    $0<n<y$ if and only if $0<\frac{1}{y}<\frac{1}{n}$. So $y$ witnesses the failure of 
+    the Archimedean property if and only if $\frac{1}{y}$ is a positive infinitesimal.
+\end{proof}
+\begin{remark}
+    As lonng as we have a infinitesimal, then there are infinitely many infinitesimals.(divide
+    by a positve integer repeatedly.)
+\end{remark}
+\vspace{2mm}
+
+\begin{proposition}
+    $\bb{Q}$ has the Archimedean property.
+\end{proposition}
+
+\begin{proof}
+    For each $\frac{m}{n}\in\bb{Q}$, we have $\frac{m}{n}<|m|+1$. So $\bb{N}$ is 
+    unbounded in $\bb{Q}$.
+\end{proof}
+\vspace{2mm}
+
+\begin{proposition}
+    $\bb{R}$ has the Archimedean property.
+\end{proposition}
+\begin{proof}
+    Suppose towards a contradiction that $\bb{N}$ is bounded in $R$. Since $\bb{N}$
+    is nonempty and bounded, $\mathrm{sup}(\bb{N})\in\bb{R}$ exists.\\
+    Since $\mathrm{sup}(\bb{N})-1<\mathrm{sup}(\bb{N})$, $\mathrm{sup}(\bb{N})-1$
+    is not an upper bound of $\bb{N}$. So there exists some $n\in\bb{N}$ such 
+    that $n>\mathrm{sup}(\bb{N})-1$.\\
+    Now $n+1\in \bb{N}$ and $n+1>\mathrm{sup}(\bb{N})$, contradicting the fact that
+    $\mathrm{sup}(\bb{N})$ is an upper bound of $\bb{N}$.
+
+\end{proof}
+
+\begin{remark}
+    The proofs that $\bb{R}$ and $\bb{Q}$ have the Archimedean property does not 
+    follow from the axioms of ordered field. In fact, there are ordered fields
+    where the Archimedean property fails.
+\end{remark}
+\begin{example}
+    Not all ordered field have the Archimedean property. Here is an example:\\
+
+\end{example}
+
+\vspace{5mm}
+
+\subsection{The notions of density}
+\begin{definition}
+    The ordering on $F$ is dense if for every two distinct 
+    $x,y\in F$, there is some $z\in F$ in between them.
+\end{definition}
+
+\vspace{2mm}
+
+\begin{definition}
+ We say $\bb{Q}$ is dense in $\bb{R}$ if for every two distinct $x,y\in\bb{R}$, there is 
+ $z\in\bb{Q}$ in between them.
+\end{definition}
+
+\vspace{2mm}
+
+\begin{proposition}
+    The standard ordering on $\bb{R}$ and $\bb{Q}$ are dense.
+\end{proposition}
+
+\vspace{2mm}
+
+\begin{proposition}
+    The standard ordering in the set of irrationals is dense. (Note that the set of irrationals
+    is not an ordered field.)
+\end{proposition}
+
+\begin{proof}
+    Given two distinct irrationals $x,y$, consider $z=\frac{x+y}{2}$. If $z$ is irrational,
+    then we are done. Otherwise, consider $w=\frac{z+x}{2}$. If $w$ is irrational, then
+    we are done. Otherwise, since $w$ and $z$ are two distinct rational numbers, there is 
+    an irrational number in between them (T1 Q5).
+\end{proof}
+
+
+\vspace{2mm}
+
+\begin{proposition}
+    $\bb{Q}$ is dense in $\bb{R}$ if and only if $\bb{R}$ has the Archimedean property.
+\end{proposition}
+
+\begin{proof}
+    ($\Rightarrow$) Given $r\in \bb{R}$,  since $r<r+1$ and  $\bb{Q}$ is dense in $\bb{R}$, 
+    there is some rational $\frac{m}{n}$ such that $r<\frac{m}{n}<r+1$. Then, 
+    $|m|\geq \frac{m}{n}>r $.\\
+    ($\Leftarrow$) Take $0<x<y$ and $x, y\in \bb{R}$. By the Archimedean property, there exists
+    $n\in\bb{N}$ such that $\frac{1}{n}<y-x$. Thus, $ny>1+nx$. By T10 Q3, there exists a positive
+    integer $m=\left \lfloor{nx}\right \rfloor+1 $, and we have $nx<m<ny$. Thus, $x<\frac{m}{n}<y$
+    as desired.
+\end{proof}
+  
+  
+  \end{document}
